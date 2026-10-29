@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { palavraPorId } from '@/conteudo/palavras';
+import { FraseTocavel } from '@/dicionario/FraseTocavel';
 import { nomeDoTema } from '@/conteudo/temas';
 import type { Palavra } from '@/conteudo/tipos';
 import { useProgresso } from '@/store/progresso';
@@ -63,10 +64,8 @@ export default function TelaPalavra() {
       </View>
 
       <Prancha>
-        <Texto variante="rotulo">Exemplo</Texto>
-        <Texto variante="subtitulo" style={estilos.frase}>
-          {p.exemplo.en}
-        </Texto>
+        <Texto variante="rotulo">Exemplo · toque numa palavra para ver o significado</Texto>
+        <FraseTocavel frase={p.exemplo.en} variante="subtitulo" style={estilos.frase} />
         <Texto variante="corpo" cor={cores.textoSuave}>
           {p.exemplo.pt}
         </Texto>
@@ -139,7 +138,7 @@ function ComoUsar({ palavra: p }: { palavra: Palavra }) {
 function LinhaUso({ en, pt }: { en: string; pt: string }) {
   return (
     <View style={estilos.linhaUso}>
-      <Texto style={estilos.usoEn}>{en}</Texto>
+      <FraseTocavel frase={en} style={estilos.usoEn} />
       <Texto variante="suave">{pt}</Texto>
     </View>
   );

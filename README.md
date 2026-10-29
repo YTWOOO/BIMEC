@@ -53,6 +53,8 @@ src/
   conteudo/       palavras, moldes de frase, contrações, unidades (JSON), temas e estruturas
   gerador/        gerador de frases: português (gênero, contrações), frases e distratores
   data/           trilha de exemplo (some na etapa 7)
+  dicionario/     dicionário de toque: fichas das palavras, frase tocável e painel
+  motor/          revisão espaçada, degraus, ajuste para 80%, montagem de lição e simulação
   notificacoes/   palavra na tela de bloqueio, canais, permissão, tarefa de fundo
   store/          progresso salvo no celular (zustand + AsyncStorage)
   ui/             tema planta técnica e componentes visuais
@@ -62,8 +64,12 @@ __tests__/        testes
 
 O tema fica em `src/ui/tema.ts`. Nenhuma tela usa cor ou fonte fora dele.
 
+## Dicionário de toque
+
+Toda frase em inglês do app é tocável: cada palavra (e expressões como "next to" e "in front of") abre uma ficha com o significado, uma explicação curta e os contextos em que ela aparece, com áudio. Os substantivos vêm das palavras do conteúdo; artigos, preposições, verbos e o resto vêm de `src/conteudo/glossario.json`. Um teste garante que toda palavra das frases do app tem ficha.
+
 ## Palavra na tela de bloqueio
 
-A palavra fica numa notificação fixa e troca no intervalo escolhido em Ajustes, fora do horário de silêncio. Toda troca usa o mesmo identificador, então a notificação nova substitui a anterior. Duas coisas fazem a troca acontecer com o app fechado: a próxima troca já fica agendada, e uma tarefa de fundo confere a palavra mais ou menos a cada 15 minutos.
+A palavra fica numa notificação fixa e troca no intervalo escolhido em Ajustes, fora do horário de silêncio. A cada 3 trocas, 1 traz palavra nova e as outras trazem revisão, escolhidas pelo motor. Toda troca usa o mesmo identificador, então a notificação nova substitui a anterior. Duas coisas fazem a troca acontecer com o app fechado: a próxima troca já fica agendada, e uma tarefa de fundo confere a palavra mais ou menos a cada 15 minutos.
 
 No modo de desenvolvimento, Ajustes mostra uma **Área de teste** para forçar a palavra, testar uma troca em 1 minuto e rodar a tarefa de fundo.

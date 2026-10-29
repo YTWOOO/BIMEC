@@ -1,0 +1,24 @@
+{
+  "orange": [{ "titulo": "Cor", "en": "An orange car.", "pt": "Um carro laranja." }],
+  "glass": [
+    { "titulo": "Vidro (material)", "en": "A glass door.", "pt": "Uma porta de vidro." },
+    { "titulo": "Glasses: óculos", "en": "I need my glasses.", "pt": "Eu preciso dos meus óculos." }
+  ],
+  "key": [{ "titulo": "Tecla", "en": "Press any key.", "pt": "Aperte qualquer tecla." }],
+  "floor": [{ "titulo": "Andar de prédio", "en": "I live on the second floor.", "pt": "Eu moro no segundo andar." }],
+  "fish": [{ "titulo": "Pescar (verbo)", "en": "I fish on Sundays.", "pt": "Eu pesco aos domingos." }],
+  "book": [{ "titulo": "Reservar (verbo)", "en": "Book a table, please.", "pt": "Reserve uma mesa, por favor." }],
+  "chicken": [{ "titulo": "Galinha (o animal)", "en": "A chicken on the farm.", "pt": "Uma galinha na fazenda." }],
+  "cup": [{ "titulo": "Copa", "en": "The World Cup.", "pt": "A Copa do Mundo." }],
+  "plate": [{ "titulo": "Placa", "en": "The license plate.", "pt": "A placa do carro." }],
+  "table": [{ "titulo": "Tabela", "en": "Look at the table on page two.", "pt": "Olhe a tabela da página dois." }],
+  "phone": [{ "titulo": "Ligar (verbo)", "en": "Phone me later.", "pt": "Me liga mais tarde." }],
+  "water": [{ "titulo": "Regar (verbo)", "en": "Water the plants.", "pt": "Regue as plantas." }],
+  "cookie": [{ "titulo": "Na internet", "en": "This site uses cookies.", "pt": "Este site usa cookies." }],
+  "clock": [{ "titulo": "Relógio de pulso é watch", "en": "I have a new watch.", "pt": "Eu tenho um relógio novo." }],
+  "dinner": [{ "titulo": "Have dinner: jantar", "en": "We have dinner at eight.", "pt": "Nós jantamos às oito." }],
+  "breakfast": [{ "titulo": "Have breakfast: tomar café da manhã", "en": "I have breakfast at seven.", "pt": "Eu tomo café da manhã às sete." }],
+  "bean": [{ "titulo": "Grão", "en": "Coffee beans.", "pt": "Grãos de café." }],
+  "bag": [{ "titulo": "Saco, sacola", "en": "A plastic bag.", "pt": "Um saco plástico." }],
+  "coffee": [{ "titulo": "Cafeteria", "en": "A coffee shop.", "pt": "Uma cafeteria." }]
+}

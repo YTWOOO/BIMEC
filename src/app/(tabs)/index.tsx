@@ -4,8 +4,9 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { nomeDoTema } from '@/conteudo/temas';
 import { unidadesExemplo, type UnidadeExemplo } from '@/data/exemplo';
+import { FraseTocavel } from '@/dicionario/FraseTocavel';
 import { CartaoPermissao } from '@/notificacoes/CartaoPermissao';
-import { palavraAgora } from '@/notificacoes/palavraDoDia';
+import { usePalavraAgora } from '@/notificacoes/usePalavraAgora';
 import { useProgresso } from '@/store/progresso';
 import { nivelAtual, resumoPalavras, xpDeHoje } from '@/store/selecionar';
 import { BarraProgresso } from '@/ui/BarraProgresso';
@@ -22,7 +23,6 @@ import { alfa, cores, espaco } from '@/ui/tema';
 import { falar } from '@/util/audio';
 import { diaLocal, formatarHora } from '@/util/datas';
 import { doisDigitos } from '@/util/formatar';
-import { useAgora } from '@/util/useAgora';
 
 export default function Inicio() {
   const perfil = useProgresso((s) => s.perfil);
@@ -87,13 +87,23 @@ export default function Inicio() {
 
 /** A mesma palavra que está na tela de bloqueio agora. */
 function PalavraDeAgora() {
-  const perfil = useProgresso((s) => s.perfil);
-  const agora = useAgora();
-  const { troca, palavra: p } = palavraAgora(perfil, agora);
+  const { troca, palavra: p } = usePalavraAgora();
+
+  if (!p) {
+    return (
+      <Prancha>
+        <Texto variante="rotulo">Palavra de agora</Texto>
+        <Texto variante="suave" style={estilos.carregando}>
+          Escolhendo a palavra…
+        </Texto>
+      </Prancha>
+    );
+  }
+
   const abrir = () => router.push({ pathname: '/palavra/[id]', params: { id: p.id } });
 
-  // Nenhum botão fica dentro de outro: na web isso vira <button> dentro de <button>, o que é proibido.
-  // Por isso o card tem duas áreas que abrem a palavra e o botão de som fica separado entre elas.
+  // Nenhum botão fica dentro de outro (na web vira <button> dentro de <button>).
+  // A frase de exemplo fica fora dos botões porque cada palavra dela abre o dicionário.
   return (
     <Prancha>
       <Texto variante="rotulo">Palavra de agora · {nomeDoTema(p.tema)}</Texto>
@@ -117,23 +127,19 @@ function PalavraDeAgora() {
           <IconeSom tamanho={22} />
         </Pressable>
       </View>
-      <Pressable
-        onPress={abrir}
-        accessibilityRole="button"
-        accessibilityLabel={`Ver mais sobre ${p.en}`}
-        style={({ pressed }) => pressed && { opacity: 0.75 }}>
-        <Cota rotulo="exemplo" />
-        <Texto variante="corpoForte">{p.exemplo.en}</Texto>
-        <Texto variante="suave">{p.exemplo.pt}</Texto>
-        <View style={estilos.rodapePalavra}>
-          <Texto variante="rotulo" style={estilos.rotuloPequeno}>
-            Troca às {formatarHora(troca.proxima)}
-          </Texto>
+      <Cota rotulo="exemplo" />
+      <FraseTocavel frase={p.exemplo.en} />
+      <Texto variante="suave">{p.exemplo.pt}</Texto>
+      <View style={estilos.rodapePalavra}>
+        <Texto variante="rotulo" style={estilos.rotuloPequeno}>
+          Troca às {formatarHora(troca.proxima)}
+        </Texto>
+        <Pressable onPress={abrir} accessibilityRole="button" accessibilityLabel={`Ver mais sobre ${p.en}`} hitSlop={10}>
           <Texto variante="rotulo" cor={cores.tracoClaro} style={estilos.rotuloPequeno}>
             Ver mais →
           </Texto>
-        </View>
-      </Pressable>
+        </Pressable>
+      </View>
     </Prancha>
   );
 }
@@ -205,6 +211,9 @@ const estilos = StyleSheet.create({
   linhaPalavra: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: espaco.x2,
+  },
+  carregando: {
     marginTop: espaco.x2,
   },
   rodapePalavra: {

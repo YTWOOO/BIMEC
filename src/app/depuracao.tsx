@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { FraseTocavel } from '@/dicionario/FraseTocavel';
 import { criarAleatorio } from '@/gerador/aleatorio';
 import { blocosExtras, gerarDistratores, type TipoDistrator } from '@/gerador/distratores';
 import { gerarFrases, type FraseGerada } from '@/gerador/frases';
@@ -84,7 +85,7 @@ function CartaoFrase({ frase: f, indice, semente }: { frase: FraseGerada; indice
       />
       <View style={estilos.linhaFrase}>
         <View style={estilos.flex}>
-          <Texto variante="corpoForte">{f.en}</Texto>
+          <FraseTocavel frase={f.en} />
           <Texto variante="suave">{f.pt}</Texto>
         </View>
         <BotaoPequeno rotulo="Ouvir" icone={<IconeSom tamanho={16} />} onPress={() => falar(f.en)} />
@@ -96,7 +97,7 @@ function CartaoFrase({ frase: f, indice, semente }: { frase: FraseGerada; indice
           <Texto variante="rotulo" cor={cores.erro} style={estilos.tipo}>
             {NOME_TIPO[d.tipo]}
           </Texto>
-          <Texto variante="corpo">{d.en}</Texto>
+          <FraseTocavel frase={d.en} variante="corpo" />
           <Texto variante="suave">{d.explicacao}</Texto>
         </View>
       ))}

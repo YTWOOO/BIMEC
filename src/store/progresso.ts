@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import { apresentar, facilDemais, novoItem, registrarResposta, type DadosResposta } from '@/motor/srs';
 import { somarMinutos } from '@/util/datas';
 
 import {
@@ -12,7 +13,10 @@ import {
   migrar,
   novoItemPalavra,
 } from './padrao';
-import type { DadosSalvos, IntervaloPalavra, Perfil } from './tipos';
+import type { DadosSalvos, IntervaloPalavra, Perfil, TipoItem } from './tipos';
+
+/** Quantas respostas o histórico guarda. */
+export const LIMITE_HISTORICO = 200;
 
 type Acoes = {
   definirMetaDiaria: (xp: number) => void;
@@ -29,6 +33,14 @@ type Acoes = {
     dia: string,
     marca?: NonNullable<Perfil['ultimaTrocaRegistrada']>,
   ) => void;
+  /** Card de apresentação visto: o item entra no degrau 1. */
+  apresentarItem: (itemId: string, tipo: TipoItem, hoje: string) => void;
+  /** Resposta de um exercício: atualiza o item pelo motor e guarda no histórico. */
+  responder: (itemId: string, tipo: TipoItem, resposta: DadosResposta & { joguinho: string }) => void;
+  /** Botão "fácil demais". */
+  marcarFacilDemais: (itemId: string, tipo: TipoItem, hoje: string) => void;
+  /** Guarda o limite de palavras por frase que o ajuste calculou. */
+  definirLimiteFrase: (limite: number) => void;
   /** Apaga todo o progresso e volta às configurações padrão. */
   resetar: () => void;
 };
@@ -80,6 +92,30 @@ export const useProgresso = create<EstadoProgresso>()(
             perfil: marca ? { ...s.perfil, ultimaTrocaRegistrada: marca } : s.perfil,
           };
         }),
+
+      apresentarItem: (itemId, tipo, hoje) =>
+        set((s) => ({
+          itens: { ...s.itens, [itemId]: apresentar(s.itens[itemId] ?? novoItem(itemId, tipo), hoje) },
+        })),
+
+      responder: (itemId, tipo, { joguinho, ...resposta }) =>
+        set((s) => ({
+          itens: {
+            ...s.itens,
+            [itemId]: registrarResposta(s.itens[itemId] ?? novoItem(itemId, tipo), resposta),
+          },
+          historico: [
+            ...s.historico,
+            { itemId, joguinho, acertou: resposta.acertou, ms: Math.round(resposta.ms), data: new Date().toISOString() },
+          ].slice(-LIMITE_HISTORICO),
+        })),
+
+      marcarFacilDemais: (itemId, tipo, hoje) =>
+        set((s) => ({
+          itens: { ...s.itens, [itemId]: facilDemais(s.itens[itemId] ?? novoItem(itemId, tipo), hoje) },
+        })),
+
+      definirLimiteFrase: (limite) => set((s) => ({ perfil: { ...s.perfil, limiteFrase: limite } })),
 
       resetar: () => set({ ...dadosIniciais() }),
     }),

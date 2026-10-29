@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { ETAPA_ATUAL, NOME_APP, VERSAO_APP } from '@/config';
 import { AreaDeTeste } from '@/notificacoes/AreaDeTeste';
-import { palavraAgora } from '@/notificacoes/palavraDoDia';
+import { trocaAgora } from '@/notificacoes/palavraDoDia';
 import { usePermissao } from '@/notificacoes/usePermissao';
 import { VERSAO_ESQUEMA } from '@/store/padrao';
 import { useProgresso } from '@/store/progresso';
@@ -122,7 +122,7 @@ export default function Config() {
         </View>
         {perfil.palavraNaTelaDeBloqueio && (
           <Texto variante="suave" style={estilos.nota}>
-            Próxima troca às {formatarHora(palavraAgora(perfil, agora).troca.proxima)}.
+            Próxima troca às {formatarHora(trocaAgora(perfil, agora).proxima)}.
           </Texto>
         )}
       </Prancha>

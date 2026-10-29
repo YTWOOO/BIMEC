@@ -128,6 +128,8 @@ export interface OpcoesFrase {
   preposicoes?: Preposicao[];
   /** Ids de palavras que devem aparecer mais (ex.: revisão vencida). */
   preferidas?: ReadonlySet<string>;
+  /** Id de uma palavra que precisa estar na frase. */
+  obrigatoria?: string;
 }
 
 /** Gera uma frase de um molde. Devolve null se nenhuma combinação servir. */
@@ -167,11 +169,16 @@ export function gerarFrase(molde: Molde, aleatorio: Aleatorio, opcoes: OpcoesFra
         deuCerto = false;
         break;
       }
-      const escolhida = sortearComPeso(candidatas, aleatorio, opcoes.preferidas);
+      const obrigatoria =
+        opcoes.obrigatoria && !usadas.has(opcoes.obrigatoria)
+          ? candidatas.find((p) => p.id === opcoes.obrigatoria)
+          : undefined;
+      const escolhida = obrigatoria ?? sortearComPeso(candidatas, aleatorio, opcoes.preferidas);
       escolhidas[nome] = escolhida;
       usadas.add(escolhida.id);
     }
     if (!deuCerto) continue;
+    if (opcoes.obrigatoria && !usadas.has(opcoes.obrigatoria)) continue;
 
     const en = montar(molde.en, marcasEn, escolhidas, prep, 'en');
     const pt = montar(molde.pt, marcasPt, escolhidas, prep, 'pt');
@@ -225,4 +232,35 @@ export function gerarFrases(quantidade: number, opcoes: OpcoesGerar = {}): Frase
     }
   }
   return frases;
+}
+
+/** Frase com uma palavra obrigatória, de no máximo `limite` palavras. Null se nenhum molde servir. */
+export function gerarFraseComPalavra(
+  palavraId: string,
+  aleatorio: Aleatorio,
+  opcoes: OpcoesFrase & { limite?: number; moldes?: Molde[] } = {},
+): FraseGerada | null {
+  for (const molde of embaralhar(opcoes.moldes ?? MOLDES, aleatorio)) {
+    for (let tentativa = 0; tentativa < 3; tentativa++) {
+      const frase = gerarFrase(molde, aleatorio, { ...opcoes, obrigatoria: palavraId });
+      if (!frase) break;
+      if (opcoes.limite === undefined || frase.blocosEn.length <= opcoes.limite) return frase;
+    }
+  }
+  return null;
+}
+
+/** A frase de exemplo da própria palavra, no formato de frase gerada. */
+export function fraseDoExemplo(palavra: Palavra): FraseGerada {
+  return {
+    id: `exemplo|${palavra.id}`,
+    moldeId: 'exemplo',
+    estrutura: 'exemplo',
+    en: palavra.exemplo.en,
+    pt: palavra.exemplo.pt,
+    palavras: { X: palavra.id },
+    preposicao: null,
+    blocosEn: blocos(palavra.exemplo.en),
+    blocosPt: blocos(palavra.exemplo.pt),
+  };
 }

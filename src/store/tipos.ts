@@ -18,6 +18,11 @@ export interface ItemProgresso {
   vistoEm: string | null;
   acertos: number;
   erros: number;
+  /**
+   * Última lição em que o item foi respondido. Só a primeira resposta de cada lição
+   * conta para subir de degrau e mexer no intervalo.
+   */
+  ultimaLicao: string | null;
 }
 
 export const INTERVALOS_PALAVRA = [1, 2, 3, 4, 6] as const;
@@ -48,6 +53,8 @@ export interface Perfil {
    * `config` guarda intervalo e silêncio da época: se mudarem, a numeração das trocas muda.
    */
   ultimaTrocaRegistrada: { numero: number; config: string } | null;
+  /** Máximo de palavras por frase nos exercícios (de 3 a 14). O motor ajusta conforme o acerto. */
+  limiteFrase: number;
 }
 
 export interface Resposta {

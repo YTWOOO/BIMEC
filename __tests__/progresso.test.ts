@@ -18,6 +18,7 @@ function item(parcial: Partial<ItemProgresso> & { id: string }): ItemProgresso {
     vistoEm: null,
     acertos: 0,
     erros: 0,
+    ultimaLicao: null,
     ...parcial,
   };
 }
@@ -56,10 +57,24 @@ describe('migração dos dados salvos', () => {
   });
 
   it('migra da versão 0 para a atual', () => {
-    expect(VERSAO_ESQUEMA).toBe(2);
+    expect(VERSAO_ESQUEMA).toBe(3);
     const r = migrar({ perfil: { ofensiva: 4 } }, 0);
     expect(r.perfil.ofensiva).toBe(4);
     expect(r.perfil.intervaloPalavraHoras).toBe(3);
+  });
+
+  it('migra da versão 2: itens ganham ultimaLicao e o perfil ganha limiteFrase', () => {
+    const v2 = {
+      perfil: { metaDiariaXp: 20 },
+      itens: { apple: { id: 'apple', tipo: 'palavra', degrau: 2, acertos: 4 } },
+      historico: [],
+    };
+    const r = migrar(v2, 2);
+    expect(r.perfil.limiteFrase).toBe(5);
+    expect(r.itens.apple.degrau).toBe(2);
+    expect(r.itens.apple.acertos).toBe(4);
+    expect(r.itens.apple.ultimaLicao).toBeNull();
+    expect(r.itens.apple.facilidade).toBe(2.3);
   });
 
   it('migra da versão 1: liga a palavra na tela de bloqueio', () => {

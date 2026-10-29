@@ -1,0 +1,546 @@
+[
+  {
+    "id": "a", "en": "a", "classe": "artigo", "significado": "um, uma",
+    "explicacao": "Vem antes de palavra que começa com som de consoante. Só para uma coisa que dá para contar.",
+    "contextos": [
+      { "titulo": "Uma coisa qualquer", "en": "I have a book.", "pt": "Eu tenho um livro." },
+      { "titulo": "Profissão (em português não tem artigo)", "en": "She is a doctor.", "pt": "Ela é médica." },
+      { "titulo": "Por, cada", "en": "Twice a day.", "pt": "Duas vezes por dia." }
+    ]
+  },
+  {
+    "id": "an", "en": "an", "classe": "artigo", "significado": "um, uma",
+    "explicacao": "Igual ao \"a\", mas antes de som de vogal. Vale o som, não a letra: \"an hour\" (o h não soa), \"a university\" (soa \"iu\").",
+    "contextos": [
+      { "titulo": "Antes de vogal", "en": "An apple inside a book.", "pt": "Uma maçã dentro de um livro." },
+      { "titulo": "H mudo", "en": "I need an hour.", "pt": "Eu preciso de uma hora." },
+      { "titulo": "Outro exemplo", "en": "Take an umbrella.", "pt": "Leve um guarda-chuva." }
+    ]
+  },
+  {
+    "id": "the", "en": "the", "classe": "artigo", "significado": "o, a, os, as",
+    "explicacao": "Para uma coisa específica, que os dois já sabem qual é. Não muda com gênero nem com plural.",
+    "contextos": [
+      { "titulo": "Coisa específica", "en": "The key is on the table.", "pt": "A chave está na mesa." },
+      { "titulo": "No plural também", "en": "The books are here.", "pt": "Os livros estão aqui." },
+      { "titulo": "Quando não usar: coisas em geral", "en": "I like coffee.", "pt": "Eu gosto de café." }
+    ]
+  },
+  {
+    "id": "is", "en": "is", "classe": "verbo", "significado": "é, está",
+    "explicacao": "Verbo to be para uma coisa só, ou para he, she e it. Em português pode ser \"é\" ou \"está\".",
+    "contextos": [
+      { "titulo": "Ser", "en": "This is a book.", "pt": "Isto é um livro." },
+      { "titulo": "Estar num lugar", "en": "The cat is under the bed.", "pt": "O gato está embaixo da cama." },
+      { "titulo": "Estar de um jeito", "en": "The soup is hot.", "pt": "A sopa está quente." },
+      { "titulo": "There is: tem, há", "en": "There is a cake in the box.", "pt": "Tem um bolo na caixa." }
+    ]
+  },
+  {
+    "id": "are", "en": "are", "classe": "verbo", "significado": "são, estão; é, está (com you)",
+    "explicacao": "Verbo to be para várias coisas, ou para you, we e they.",
+    "contextos": [
+      { "titulo": "Várias coisas", "en": "The keys are on the table.", "pt": "As chaves estão na mesa." },
+      { "titulo": "Com you", "en": "You are my friend.", "pt": "Você é meu amigo." },
+      { "titulo": "There are: tem, há (várias)", "en": "There are two cups.", "pt": "Tem duas xícaras." }
+    ]
+  },
+  {
+    "id": "there", "en": "there", "classe": "advérbio", "significado": "lá, ali; com is/are: tem, há",
+    "explicacao": "\"There is\" e \"there are\" dizem que alguma coisa existe num lugar, como o nosso \"tem\".",
+    "contextos": [
+      { "titulo": "Tem uma coisa", "en": "There is a dog in the house.", "pt": "Tem um cachorro na casa." },
+      { "titulo": "Tem várias", "en": "There are two apples.", "pt": "Tem duas maçãs." },
+      { "titulo": "Lugar", "en": "Put it there.", "pt": "Coloque ali." }
+    ]
+  },
+  {
+    "id": "I", "en": "I", "classe": "pronome", "significado": "eu",
+    "explicacao": "Sempre com letra maiúscula, em qualquer lugar da frase.",
+    "contextos": [
+      { "titulo": "Começo da frase", "en": "I have a phone.", "pt": "Eu tenho um celular." },
+      { "titulo": "No meio da frase", "en": "Can I sit here?", "pt": "Posso sentar aqui?" }
+    ]
+  },
+  {
+    "id": "have", "en": "have", "classe": "verbo", "significado": "ter",
+    "explicacao": "I, you, we e they usam \"have\"; he, she e it usam \"has\".",
+    "contextos": [
+      { "titulo": "Ter alguma coisa", "en": "I have a key.", "pt": "Eu tenho uma chave." },
+      { "titulo": "Refeições: tomar, comer", "en": "I have breakfast at seven.", "pt": "Eu tomo café da manhã às sete." },
+      { "titulo": "Have to: ter que", "en": "I have to go.", "pt": "Eu tenho que ir." }
+    ]
+  },
+  {
+    "id": "and", "en": "and", "classe": "conector", "significado": "e",
+    "contextos": [
+      { "titulo": "Juntar duas coisas", "en": "Rice and beans.", "pt": "Arroz e feijão." },
+      { "titulo": "Juntar ideias", "en": "I have a cat and a dog.", "pt": "Eu tenho um gato e um cachorro." }
+    ]
+  },
+  {
+    "id": "two", "en": "two", "classe": "número", "significado": "dois, duas",
+    "explicacao": "Depois de \"two\" a palavra vai para o plural.",
+    "contextos": [
+      { "titulo": "Com plural", "en": "There are two apples.", "pt": "Tem duas maçãs." },
+      { "titulo": "Outro exemplo", "en": "I have two books.", "pt": "Eu tenho dois livros." }
+    ]
+  },
+  {
+    "id": "next to", "en": "next to", "classe": "preposição", "significado": "ao lado de",
+    "explicacao": "Duas palavras que funcionam juntas, como uma só.",
+    "contextos": [
+      { "titulo": "Lugar", "en": "The lamp is next to the bed.", "pt": "A luminária está ao lado da cama." },
+      { "titulo": "Pessoa", "en": "Sit next to me.", "pt": "Sente do meu lado." }
+    ]
+  },
+  {
+    "id": "next", "en": "next", "classe": "adjetivo", "significado": "próximo, seguinte",
+    "contextos": [
+      { "titulo": "Tempo", "en": "See you next week.", "pt": "Até a semana que vem." },
+      { "titulo": "Next to: ao lado de", "en": "The cup is next to the plate.", "pt": "A xícara está ao lado do prato." }
+    ]
+  },
+  {
+    "id": "to", "en": "to", "classe": "preposição", "significado": "para, a",
+    "contextos": [
+      { "titulo": "Direção", "en": "I go to school.", "pt": "Eu vou para a escola." },
+      { "titulo": "Antes de verbo", "en": "I want to eat.", "pt": "Eu quero comer." },
+      { "titulo": "Next to: ao lado de", "en": "The dog is next to the door.", "pt": "O cachorro está ao lado da porta." }
+    ]
+  },
+  {
+    "id": "under", "en": "under", "classe": "preposição", "significado": "embaixo de",
+    "contextos": [
+      { "titulo": "Lugar", "en": "The cat is under the bed.", "pt": "O gato está embaixo da cama." },
+      { "titulo": "Menos de", "en": "It costs under ten dollars.", "pt": "Custa menos de dez dólares." }
+    ]
+  },
+  {
+    "id": "on", "en": "on", "classe": "preposição", "significado": "em cima de; em (encostado)",
+    "explicacao": "A coisa está apoiada ou encostada numa superfície. Em português quase sempre vira \"no/na\".",
+    "contextos": [
+      { "titulo": "Em cima de uma superfície", "en": "The keys are on the table.", "pt": "As chaves estão na mesa." },
+      { "titulo": "Encostado (parede, porta)", "en": "There is a clock on the wall.", "pt": "Tem um relógio na parede." },
+      { "titulo": "Dias da semana", "en": "I study on Monday.", "pt": "Eu estudo na segunda-feira." },
+      { "titulo": "Ligado", "en": "The TV is on.", "pt": "A TV está ligada." }
+    ]
+  },
+  {
+    "id": "in", "en": "in", "classe": "preposição", "significado": "em, dentro de",
+    "explicacao": "A coisa está dentro de algum lugar ou de algum período. Em português vira \"em/no/na\".",
+    "contextos": [
+      { "titulo": "Dentro de algo", "en": "The phone is in the bag.", "pt": "O celular está na bolsa." },
+      { "titulo": "Cômodo, cidade, país", "en": "I live in Brazil.", "pt": "Eu moro no Brasil." },
+      { "titulo": "Mês e ano", "en": "My birthday is in May.", "pt": "Meu aniversário é em maio." },
+      { "titulo": "Partes do dia", "en": "I drink coffee in the morning.", "pt": "Eu tomo café de manhã." }
+    ]
+  },
+  {
+    "id": "inside", "en": "inside", "classe": "preposição", "significado": "dentro de",
+    "explicacao": "Mais forte que \"in\": deixa claro que está lá dentro, fechado.",
+    "contextos": [
+      { "titulo": "Lugar", "en": "The book is inside the box.", "pt": "O livro está dentro da caixa." },
+      { "titulo": "Para dentro", "en": "Come inside!", "pt": "Entra!" }
+    ]
+  },
+  {
+    "id": "behind", "en": "behind", "classe": "preposição", "significado": "atrás de",
+    "contextos": [
+      { "titulo": "Lugar", "en": "The bag is behind the door.", "pt": "A bolsa está atrás da porta." },
+      { "titulo": "Pessoa", "en": "He is behind me.", "pt": "Ele está atrás de mim." }
+    ]
+  },
+  {
+    "id": "of", "en": "of", "classe": "preposição", "significado": "de",
+    "contextos": [
+      { "titulo": "Quantidade", "en": "A cup of coffee.", "pt": "Uma xícara de café." },
+      { "titulo": "Parte de algo", "en": "The door of the bedroom.", "pt": "A porta do quarto." },
+      { "titulo": "In front of: na frente de", "en": "The car is in front of the house.", "pt": "O carro está na frente da casa." }
+    ]
+  },
+  {
+    "id": "in front of", "en": "in front of", "classe": "preposição", "significado": "na frente de",
+    "explicacao": "Três palavras que funcionam juntas, como uma só.",
+    "contextos": [
+      { "titulo": "Lugar", "en": "The car is in front of the house.", "pt": "O carro está na frente da casa." },
+      { "titulo": "Pessoa", "en": "She is in front of me.", "pt": "Ela está na minha frente." }
+    ]
+  },
+  {
+    "id": "front", "en": "front", "classe": "substantivo", "significado": "frente",
+    "contextos": [
+      { "titulo": "Parte da frente", "en": "The front door is open.", "pt": "A porta da frente está aberta." },
+      { "titulo": "In front of: na frente de", "en": "The cat is in front of the TV.", "pt": "O gato está na frente da TV." }
+    ]
+  },
+  {
+    "id": "here", "en": "here", "classe": "advérbio", "significado": "aqui",
+    "contextos": [
+      { "titulo": "Lugar", "en": "The key is here.", "pt": "A chave está aqui." },
+      { "titulo": "Chamar alguém", "en": "Come here.", "pt": "Vem aqui." }
+    ]
+  },
+  {
+    "id": "this", "en": "this", "classe": "demonstrativo", "significado": "este, esta, isto",
+    "explicacao": "Para o que está perto de quem fala. No plural vira \"these\".",
+    "contextos": [
+      { "titulo": "Isto", "en": "This is a book.", "pt": "Isto é um livro." },
+      { "titulo": "Este, esta", "en": "This book is very good.", "pt": "Este livro é muito bom." },
+      { "titulo": "Plural: these", "en": "These books are mine.", "pt": "Estes livros são meus." }
+    ]
+  },
+  {
+    "id": "that", "en": "that", "classe": "demonstrativo", "significado": "aquele, aquela, aquilo, esse",
+    "explicacao": "Para o que está longe de quem fala. No plural vira \"those\".",
+    "contextos": [
+      { "titulo": "Lugar", "en": "The book is in that bedroom.", "pt": "O livro está naquele quarto." },
+      { "titulo": "Aquilo", "en": "That is my bag.", "pt": "Aquela é a minha bolsa." }
+    ]
+  },
+  {
+    "id": "my", "en": "my", "classe": "possessivo", "significado": "meu, minha, meus, minhas",
+    "explicacao": "Não muda com gênero nem com plural: my book, my house, my keys.",
+    "contextos": [
+      { "titulo": "Meu", "en": "My phone is in my pocket.", "pt": "Meu celular está no meu bolso." },
+      { "titulo": "Minha", "en": "My house is small.", "pt": "Minha casa é pequena." }
+    ]
+  },
+  {
+    "id": "his", "en": "his", "classe": "possessivo", "significado": "dele, seu (de um homem)",
+    "explicacao": "O dono vem antes da coisa: \"his book\" = \"o livro dele\".",
+    "contextos": [
+      { "titulo": "Dele", "en": "His book is on the table.", "pt": "O livro dele está na mesa." }
+    ]
+  },
+  {
+    "id": "eat", "en": "eat", "classe": "verbo", "significado": "comer",
+    "contextos": [
+      { "titulo": "Comer", "en": "I eat bread with butter.", "pt": "Eu como pão com manteiga." },
+      { "titulo": "Sempre", "en": "We eat rice every day.", "pt": "Nós comemos arroz todo dia." }
+    ]
+  },
+  {
+    "id": "with", "en": "with", "classe": "preposição", "significado": "com",
+    "contextos": [
+      { "titulo": "Junto", "en": "Tea with sugar.", "pt": "Chá com açúcar." },
+      { "titulo": "Levar junto", "en": "Take an umbrella with you.", "pt": "Leve um guarda-chuva com você." }
+    ]
+  },
+  {
+    "id": "please", "en": "please", "classe": "expressão", "significado": "por favor",
+    "contextos": [
+      { "titulo": "Pedido", "en": "Close the door, please.", "pt": "Feche a porta, por favor." }
+    ]
+  },
+  {
+    "id": "cold", "en": "cold", "classe": "adjetivo", "significado": "frio, gelado",
+    "contextos": [
+      { "titulo": "Bebida", "en": "The juice is cold.", "pt": "O suco está gelado." },
+      { "titulo": "Tempo", "en": "It is cold today.", "pt": "Está frio hoje." },
+      { "titulo": "Resfriado", "en": "I have a cold.", "pt": "Eu estou resfriado." }
+    ]
+  },
+  {
+    "id": "don't", "en": "don't", "classe": "negação", "significado": "não (do not)",
+    "explicacao": "Nega um verbo: \"I don't eat\" = \"eu não como\". Com he, she e it vira \"doesn't\".",
+    "contextos": [
+      { "titulo": "Negar", "en": "I don't eat meat.", "pt": "Eu não como carne." },
+      { "titulo": "Ordem", "en": "Don't sit on the floor.", "pt": "Não sente no chão." }
+    ]
+  },
+  {
+    "id": "can't", "en": "can't", "classe": "negação", "significado": "não pode, não consegue (can not)",
+    "contextos": [
+      { "titulo": "Não conseguir", "en": "I can't find my keys.", "pt": "Não consigo achar minhas chaves." },
+      { "titulo": "Não poder", "en": "You can't sit here.", "pt": "Você não pode sentar aqui." }
+    ]
+  },
+  {
+    "id": "can", "en": "can", "classe": "verbo", "significado": "poder, conseguir, saber",
+    "contextos": [
+      { "titulo": "Pedido", "en": "Can I have some water?", "pt": "Pode me dar um pouco de água?" },
+      { "titulo": "Saber fazer", "en": "I can swim.", "pt": "Eu sei nadar." },
+      { "titulo": "Lata (substantivo)", "en": "A can of soda.", "pt": "Uma lata de refrigerante." }
+    ]
+  },
+  {
+    "id": "put", "en": "put", "classe": "verbo", "significado": "colocar, pôr",
+    "contextos": [
+      { "titulo": "Colocar num lugar", "en": "Put the butter on the bread.", "pt": "Coloque a manteiga no pão." },
+      { "titulo": "Curto", "en": "Put it here.", "pt": "Coloca aqui." }
+    ]
+  },
+  {
+    "id": "pocket", "en": "pocket", "classe": "substantivo", "significado": "bolso",
+    "contextos": [
+      { "titulo": "Lugar", "en": "My phone is in my pocket.", "pt": "Meu celular está no meu bolso." }
+    ]
+  },
+  {
+    "id": "at", "en": "at", "classe": "preposição", "significado": "em, às (hora)",
+    "explicacao": "Para um ponto exato: uma hora, um lugar onde se está.",
+    "contextos": [
+      { "titulo": "Hora", "en": "I have breakfast at seven.", "pt": "Eu tomo café da manhã às sete." },
+      { "titulo": "Ponto exato", "en": "There is a cat at the window.", "pt": "Tem um gato na janela." },
+      { "titulo": "Lugares comuns", "en": "I am at home.", "pt": "Eu estou em casa." }
+    ]
+  },
+  {
+    "id": "cat", "en": "cat", "classe": "substantivo", "significado": "gato",
+    "contextos": [{ "titulo": "Exemplo", "en": "The cat is on my pillow.", "pt": "O gato está no meu travesseiro." }]
+  },
+  {
+    "id": "dog", "en": "dog", "classe": "substantivo", "significado": "cachorro",
+    "contextos": [{ "titulo": "Exemplo", "en": "The dog is sleeping on the sofa.", "pt": "O cachorro está dormindo no sofá." }]
+  },
+  {
+    "id": "some", "en": "some", "classe": "quantidade", "significado": "um pouco de, alguns, algumas",
+    "contextos": [
+      { "titulo": "Coisa que não se conta", "en": "Can I have some water?", "pt": "Pode me dar um pouco de água?" },
+      { "titulo": "Plural", "en": "I have some books.", "pt": "Eu tenho alguns livros." }
+    ]
+  },
+  {
+    "id": "drink", "en": "drink", "classe": "verbo", "significado": "beber, tomar",
+    "contextos": [
+      { "titulo": "Verbo", "en": "I drink coffee in the morning.", "pt": "Eu tomo café de manhã." },
+      { "titulo": "Bebida (substantivo)", "en": "A cold drink.", "pt": "Uma bebida gelada." }
+    ]
+  },
+  {
+    "id": "morning", "en": "morning", "classe": "substantivo", "significado": "manhã",
+    "contextos": [
+      { "titulo": "De manhã", "en": "I drink coffee in the morning.", "pt": "Eu tomo café de manhã." },
+      { "titulo": "Cumprimento", "en": "Good morning!", "pt": "Bom dia!" }
+    ]
+  },
+  {
+    "id": "she", "en": "she", "classe": "pronome", "significado": "ela",
+    "contextos": [{ "titulo": "Exemplo", "en": "She likes tea with sugar.", "pt": "Ela gosta de chá com açúcar." }]
+  },
+  {
+    "id": "like", "en": "like", "formas": ["likes"], "classe": "verbo", "significado": "gostar (de)",
+    "explicacao": "Com he, she e it ganha -s: \"she likes\". Não leva \"de\": \"I like tea\" = \"eu gosto de chá\".",
+    "contextos": [
+      { "titulo": "Eu gosto", "en": "I like coffee.", "pt": "Eu gosto de café." },
+      { "titulo": "Ela gosta", "en": "She likes tea with sugar.", "pt": "Ela gosta de chá com açúcar." }
+    ]
+  },
+  {
+    "id": "we", "en": "we", "classe": "pronome", "significado": "nós, a gente",
+    "contextos": [{ "titulo": "Exemplo", "en": "We eat rice and beans every day.", "pt": "Nós comemos arroz e feijão todo dia." }]
+  },
+  {
+    "id": "every", "en": "every", "classe": "quantidade", "significado": "todo, toda, cada",
+    "contextos": [
+      { "titulo": "Sempre", "en": "We eat rice every day.", "pt": "Nós comemos arroz todo dia." },
+      { "titulo": "Cada", "en": "Every room has a window.", "pt": "Cada quarto tem uma janela." }
+    ]
+  },
+  {
+    "id": "day", "en": "day", "classe": "substantivo", "significado": "dia",
+    "contextos": [
+      { "titulo": "Todo dia", "en": "I study every day.", "pt": "Eu estudo todo dia." },
+      { "titulo": "Despedida", "en": "Have a nice day!", "pt": "Tenha um bom dia!" }
+    ]
+  },
+  {
+    "id": "pot", "en": "pot", "classe": "substantivo", "significado": "panela; vaso",
+    "contextos": [
+      { "titulo": "Panela", "en": "The beans are in a pot.", "pt": "O feijão está numa panela." },
+      { "titulo": "Vaso", "en": "A flower pot.", "pt": "Um vaso de flor." }
+    ]
+  },
+  {
+    "id": "cupboard", "en": "cupboard", "classe": "substantivo", "significado": "armário (de cozinha)",
+    "contextos": [{ "titulo": "Exemplo", "en": "The sugar is in the cupboard.", "pt": "O açúcar está no armário." }]
+  },
+  {
+    "id": "pass", "en": "pass", "classe": "verbo", "significado": "passar",
+    "contextos": [
+      { "titulo": "Entregar", "en": "Pass me the salt, please.", "pt": "Me passa o sal, por favor." },
+      { "titulo": "Prova", "en": "I passed the test.", "pt": "Eu passei na prova." }
+    ]
+  },
+  {
+    "id": "me", "en": "me", "classe": "pronome", "significado": "me, mim",
+    "explicacao": "Usado depois de verbo ou de preposição: \"pass me\", \"with me\". Antes do verbo é \"I\".",
+    "contextos": [
+      { "titulo": "Depois de verbo", "en": "Pass me the salt.", "pt": "Me passa o sal." },
+      { "titulo": "Depois de preposição", "en": "Sit next to me.", "pt": "Sente do meu lado." }
+    ]
+  },
+  {
+    "id": "for", "en": "for", "classe": "preposição", "significado": "para, por",
+    "contextos": [
+      { "titulo": "Para", "en": "I have a sandwich for lunch.", "pt": "Eu tenho um sanduíche para o almoço." },
+      { "titulo": "Por quanto tempo", "en": "I studied for two hours.", "pt": "Eu estudei por duas horas." }
+    ]
+  },
+  {
+    "id": "lunch", "en": "lunch", "classe": "substantivo", "significado": "almoço",
+    "contextos": [{ "titulo": "Exemplo", "en": "I have lunch at noon.", "pt": "Eu almoço ao meio-dia." }]
+  },
+  {
+    "id": "too", "en": "too", "classe": "advérbio", "significado": "demais; também",
+    "explicacao": "Antes de adjetivo é \"demais\". No fim da frase é \"também\".",
+    "contextos": [
+      { "titulo": "Demais", "en": "The soup is too hot.", "pt": "A sopa está quente demais." },
+      { "titulo": "Também", "en": "Me too!", "pt": "Eu também!" }
+    ]
+  },
+  {
+    "id": "hot", "en": "hot", "classe": "adjetivo", "significado": "quente",
+    "contextos": [
+      { "titulo": "Temperatura", "en": "The soup is too hot.", "pt": "A sopa está quente demais." },
+      { "titulo": "Apimentado", "en": "Hot sauce.", "pt": "Molho apimentado." }
+    ]
+  },
+  {
+    "id": "want", "en": "want", "classe": "verbo", "significado": "querer",
+    "contextos": [
+      { "titulo": "Querer algo", "en": "I want a potato, not rice.", "pt": "Eu quero uma batata, não arroz." },
+      { "titulo": "Querer fazer", "en": "I want to eat.", "pt": "Eu quero comer." }
+    ]
+  },
+  {
+    "id": "not", "en": "not", "classe": "negação", "significado": "não",
+    "contextos": [
+      { "titulo": "Isso, não aquilo", "en": "I want a potato, not rice.", "pt": "Eu quero uma batata, não arroz." },
+      { "titulo": "Com to be", "en": "It is not cold.", "pt": "Não está frio." }
+    ]
+  },
+  {
+    "id": "seven", "en": "seven", "classe": "número", "significado": "sete",
+    "contextos": [{ "titulo": "Hora", "en": "I have breakfast at seven.", "pt": "Eu tomo café da manhã às sete." }]
+  },
+  {
+    "id": "ready", "en": "ready", "classe": "adjetivo", "significado": "pronto",
+    "contextos": [
+      { "titulo": "Coisa", "en": "Dinner is ready.", "pt": "O jantar está pronto." },
+      { "titulo": "Pessoa", "en": "Are you ready?", "pt": "Você está pronto?" }
+    ]
+  },
+  {
+    "id": "school", "en": "school", "classe": "substantivo", "significado": "escola",
+    "contextos": [
+      { "titulo": "Lugar", "en": "My house is next to a school.", "pt": "Minha casa fica ao lado de uma escola." },
+      { "titulo": "Estar na escola", "en": "I am at school.", "pt": "Eu estou na escola." }
+    ]
+  },
+  {
+    "id": "upstairs", "en": "upstairs", "classe": "advérbio", "significado": "no andar de cima, lá em cima",
+    "contextos": [{ "titulo": "Exemplo", "en": "The bedroom is upstairs.", "pt": "O quarto fica no andar de cima." }]
+  },
+  {
+    "id": "small", "en": "small", "classe": "adjetivo", "significado": "pequeno",
+    "contextos": [{ "titulo": "Exemplo", "en": "The kitchen is small.", "pt": "A cozinha é pequena." }]
+  },
+  {
+    "id": "but", "en": "but", "classe": "conector", "significado": "mas",
+    "contextos": [{ "titulo": "Contraste", "en": "The kitchen is small but nice.", "pt": "A cozinha é pequena, mas bonita." }]
+  },
+  {
+    "id": "nice", "en": "nice", "classe": "adjetivo", "significado": "legal, bonito, agradável",
+    "contextos": [
+      { "titulo": "Bonito", "en": "The kitchen is small but nice.", "pt": "A cozinha é pequena, mas bonita." },
+      { "titulo": "Cumprimento", "en": "Nice to meet you.", "pt": "Prazer em te conhecer." }
+    ]
+  },
+  {
+    "id": "where", "en": "where", "classe": "pergunta", "significado": "onde",
+    "contextos": [{ "titulo": "Pergunta", "en": "Where is the bathroom?", "pt": "Onde fica o banheiro?" }]
+  },
+  {
+    "id": "close", "en": "close", "classe": "verbo", "significado": "fechar; perto",
+    "contextos": [
+      { "titulo": "Fechar", "en": "Close the door, please.", "pt": "Feche a porta, por favor." },
+      { "titulo": "Perto (close to)", "en": "My house is close to the school.", "pt": "Minha casa fica perto da escola." }
+    ]
+  },
+  {
+    "id": "sleep", "en": "sleep", "formas": ["sleeping"], "classe": "verbo", "significado": "dormir",
+    "explicacao": "\"Sleeping\" é \"dormindo\": está acontecendo agora.",
+    "contextos": [
+      { "titulo": "Agora", "en": "The dog is sleeping on the sofa.", "pt": "O cachorro está dormindo no sofá." },
+      { "titulo": "Sempre", "en": "I sleep at eleven.", "pt": "Eu durmo às onze." }
+    ]
+  },
+  {
+    "id": "very", "en": "very", "classe": "advérbio", "significado": "muito",
+    "contextos": [{ "titulo": "Exemplo", "en": "This book is very good.", "pt": "Este livro é muito bom." }]
+  },
+  {
+    "id": "good", "en": "good", "classe": "adjetivo", "significado": "bom, boa",
+    "contextos": [
+      { "titulo": "Qualidade", "en": "This book is very good.", "pt": "Este livro é muito bom." },
+      { "titulo": "Cumprimento", "en": "Good morning!", "pt": "Bom dia!" }
+    ]
+  },
+  {
+    "id": "find", "en": "find", "classe": "verbo", "significado": "achar, encontrar",
+    "contextos": [{ "titulo": "Exemplo", "en": "I can't find my keys.", "pt": "Não consigo achar minhas chaves." }]
+  },
+  {
+    "id": "desk", "en": "desk", "classe": "substantivo", "significado": "escrivaninha, mesa de trabalho",
+    "contextos": [{ "titulo": "Exemplo", "en": "There is a cup of coffee on the desk.", "pt": "Tem uma xícara de café na escrivaninha." }]
+  },
+  {
+    "id": "food", "en": "food", "classe": "substantivo", "significado": "comida",
+    "contextos": [{ "titulo": "Exemplo", "en": "The food is on the plate.", "pt": "A comida está no prato." }]
+  },
+  {
+    "id": "sit", "en": "sit", "classe": "verbo", "significado": "sentar",
+    "contextos": [
+      { "titulo": "Ordem", "en": "Don't sit on the floor.", "pt": "Não sente no chão." },
+      { "titulo": "Convite", "en": "Sit down, please.", "pt": "Sente, por favor." }
+    ]
+  },
+  {
+    "id": "above", "en": "above", "classe": "preposição", "significado": "acima de",
+    "explicacao": "Mais alto, mas sem encostar. Se encosta, é \"on\".",
+    "contextos": [{ "titulo": "Lugar", "en": "The clock is above the door.", "pt": "O relógio fica acima da porta." }]
+  },
+  {
+    "id": "look", "en": "look", "classe": "verbo", "significado": "olhar",
+    "contextos": [
+      { "titulo": "Olhar em", "en": "Look in the mirror.", "pt": "Olhe no espelho." },
+      { "titulo": "Olhar para (look at)", "en": "Look at me.", "pt": "Olhe para mim." }
+    ]
+  },
+  {
+    "id": "need", "en": "need", "classe": "verbo", "significado": "precisar (de)",
+    "explicacao": "Não leva \"de\": \"I need a blanket\" = \"eu preciso de um cobertor\".",
+    "contextos": [{ "titulo": "Exemplo", "en": "I need a blanket.", "pt": "Eu preciso de um cobertor." }]
+  },
+  {
+    "id": "it", "en": "it", "classe": "pronome", "significado": "ele, ela (coisa); isso",
+    "explicacao": "Para coisas e animais. Também começa frases sobre tempo e clima: \"It is cold\".",
+    "contextos": [
+      { "titulo": "Tempo, clima", "en": "It is cold.", "pt": "Está frio." },
+      { "titulo": "Uma coisa", "en": "Put it here.", "pt": "Coloca isso aqui." }
+    ]
+  },
+  {
+    "id": "take", "en": "take", "classe": "verbo", "significado": "levar, pegar",
+    "contextos": [
+      { "titulo": "Levar", "en": "Take an umbrella with you.", "pt": "Leve um guarda-chuva com você." },
+      { "titulo": "Pegar", "en": "Take a cookie.", "pt": "Pega um biscoito." }
+    ]
+  },
+  {
+    "id": "you", "en": "you", "classe": "pronome", "significado": "você, vocês",
+    "contextos": [
+      { "titulo": "Sujeito", "en": "You are here.", "pt": "Você está aqui." },
+      { "titulo": "Depois de preposição", "en": "Take an umbrella with you.", "pt": "Leve um guarda-chuva com você." }
+    ]
+  },
+  {
+    "id": "open", "en": "open", "classe": "adjetivo", "significado": "aberto; abrir",
+    "contextos": [
+      { "titulo": "Aberto", "en": "The door of the bedroom is open.", "pt": "A porta do quarto está aberta." },
+      { "titulo": "Abrir (verbo)", "en": "Open the window.", "pt": "Abra a janela." }
+    ]
+  }
+]

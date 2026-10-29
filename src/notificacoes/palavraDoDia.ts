@@ -2,14 +2,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-import { PALAVRAS } from '@/conteudo/palavras';
 import type { Palavra } from '@/conteudo/tipos';
 import { CHAVE_ARMAZENAMENTO, mesclarComPadrao } from '@/store/padrao';
-import type { Perfil } from '@/store/tipos';
+import type { DadosSalvos, ItemProgresso, Perfil } from '@/store/tipos';
 import { cores } from '@/ui/tema';
 
 import { CANAL_PALAVRA, ID_PALAVRA_DO_DIA, textoDaPalavra } from './conteudo';
-import { calcularTroca, palavraDaTroca, type ConfigTrocas, type Troca } from './trocas';
+import { palavraDecidida } from './escolha';
+import { calcularTroca, chaveConfig, type ConfigTrocas, type Troca } from './trocas';
 
 /** Onde fica registrada a última atualização (para a área de teste). */
 export const CHAVE_ULTIMA_PALAVRA = 'bimec-palavra-ultima';
@@ -30,21 +30,33 @@ export function configDoPerfil(perfil: Perfil): ConfigTrocas {
   return { intervaloHoras: perfil.intervaloPalavraHoras, silencio: perfil.silencio };
 }
 
-/** Palavra que deve estar na tela agora. */
-export function palavraAgora(perfil: Perfil, agora: Date = new Date()): { troca: Troca; palavra: Palavra } {
-  const troca = calcularTroca(agora, configDoPerfil(perfil));
-  return { troca, palavra: palavraDaTroca(troca.numero, PALAVRAS) };
+/** Troca que vale agora (número, início e hora da próxima). */
+export function trocaAgora(perfil: Perfil, agora: Date = new Date()): Troca {
+  return calcularTroca(agora, configDoPerfil(perfil));
 }
 
-/** Lê o perfil direto do armazenamento: funciona também na tarefa de fundo, sem tela. */
-export async function lerPerfilSalvo(): Promise<Perfil> {
+/** Lê os dados direto do armazenamento: funciona também na tarefa de fundo, sem tela. */
+export async function lerDadosSalvos(): Promise<DadosSalvos> {
   try {
     const bruto = await AsyncStorage.getItem(CHAVE_ARMAZENAMENTO);
     const json = bruto ? JSON.parse(bruto) : null;
-    return mesclarComPadrao(json?.state).perfil;
+    return mesclarComPadrao(json?.state);
   } catch {
-    return mesclarComPadrao(null).perfil;
+    return mesclarComPadrao(null);
   }
+}
+
+export async function lerPerfilSalvo(): Promise<Perfil> {
+  return (await lerDadosSalvos()).perfil;
+}
+
+/** Palavra de uma troca, decidida pelo motor (1 nova a cada 3, revisões nas outras). */
+export async function palavraDaTroca(
+  perfil: Perfil,
+  numero: number,
+  itens?: Record<string, ItemProgresso>,
+): Promise<Palavra> {
+  return palavraDecidida(numero, chaveConfig(configDoPerfil(perfil)), async () => itens ?? (await lerDadosSalvos()).itens);
 }
 
 function conteudo(p: Palavra): Notifications.NotificationContentInput {
@@ -63,7 +75,13 @@ function conteudo(p: Palavra): Notifications.NotificationContentInput {
  * As duas usam o mesmo identificador: no Android, a notificação nova substitui a antiga.
  */
 export async function atualizarPalavraDoDia(
-  opcoes: { perfil?: Perfil; agora?: Date; origem?: string; forcar?: boolean } = {},
+  opcoes: {
+    perfil?: Perfil;
+    itens?: Record<string, ItemProgresso>;
+    agora?: Date;
+    origem?: string;
+    forcar?: boolean;
+  } = {},
 ): Promise<ResultadoPalavra> {
   if (Platform.OS !== 'android') return { ativo: false, motivo: 'plataforma' };
 
@@ -77,7 +95,9 @@ export async function atualizarPalavraDoDia(
   if (!permissao.granted) return { ativo: false, motivo: 'sem-permissao' };
 
   const agora = opcoes.agora ?? new Date();
-  const { troca, palavra } = palavraAgora(perfil, agora);
+  const troca = trocaAgora(perfil, agora);
+  const palavra = await palavraDaTroca(perfil, troca.numero, opcoes.itens);
+  const proximaPalavra = await palavraDaTroca(perfil, troca.numero + 1, opcoes.itens);
 
   const presentes = await Notifications.getPresentedNotificationsAsync();
   const mostrada = presentes.find((n) => n.request.identifier === ID_PALAVRA_DO_DIA);
@@ -93,7 +113,7 @@ export async function atualizarPalavraDoDia(
 
   await Notifications.scheduleNotificationAsync({
     identifier: ID_PALAVRA_DO_DIA,
-    content: conteudo(palavraDaTroca(troca.numero + 1, PALAVRAS)),
+    content: conteudo(proximaPalavra),
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DATE,
       date: troca.proxima,
@@ -126,8 +146,8 @@ export async function desligarPalavraDoDia(): Promise<void> {
  * Serve para ver, com o celular bloqueado, se a notificação troca ou empilha.
  */
 export async function agendarTrocaDeTeste(perfil: Perfil): Promise<Palavra> {
-  const { troca } = palavraAgora(perfil);
-  const proxima = palavraDaTroca(troca.numero + 1, PALAVRAS);
+  const troca = trocaAgora(perfil);
+  const proxima = await palavraDaTroca(perfil, troca.numero + 1);
   await Notifications.scheduleNotificationAsync({
     identifier: ID_PALAVRA_DO_DIA,
     content: conteudo(proxima),

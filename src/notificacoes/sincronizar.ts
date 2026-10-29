@@ -9,15 +9,19 @@ import type { Perfil } from '@/store/tipos';
 import { diaLocal } from '@/util/datas';
 
 import { configurarCanais } from './canais';
+import { lerDecisoes } from './escolha';
 import { atualizarPalavraDoDia, configDoPerfil, type ResultadoPalavra } from './palavraDoDia';
 import { desligarTarefaDeFundo, ligarTarefaDeFundo } from './tarefa';
-import { chaveConfig, palavraDaTroca, trocasParaRegistrar } from './trocas';
+import { chaveConfig, trocasParaRegistrar } from './trocas';
 
 /** Marca como vistas as palavras que passaram pela tela de bloqueio desde a última vez. */
-function registrarVistas(perfil: Perfil, numeroAtual: number) {
+async function registrarVistas(perfil: Perfil, numeroAtual: number) {
   const config = chaveConfig(configDoPerfil(perfil));
   const numeros = trocasParaRegistrar(numeroAtual, config, perfil.ultimaTrocaRegistrada, PALAVRAS.length);
-  const ids = [...new Set(numeros.map((n) => palavraDaTroca(n, PALAVRAS).id))];
+  const decisoes = await lerDecisoes(config);
+  const ids = [
+    ...new Set(numeros.map((n) => decisoes.porTroca[String(n)]).filter((id): id is string => Boolean(id))),
+  ];
   useProgresso.getState().registrarPalavrasVistas(ids, diaLocal(), { numero: numeroAtual, config });
 }
 
@@ -26,11 +30,11 @@ export async function sincronizarPalavraDoDia(forcar = false): Promise<Resultado
   if (Platform.OS !== 'android') return null;
   try {
     await configurarCanais();
-    const { perfil } = useProgresso.getState();
-    const resultado = await atualizarPalavraDoDia({ perfil, origem: 'app', forcar });
+    const { perfil, itens } = useProgresso.getState();
+    const resultado = await atualizarPalavraDoDia({ perfil, itens, origem: 'app', forcar });
     if (resultado.ativo) {
       await ligarTarefaDeFundo();
-      registrarVistas(perfil, resultado.troca.numero);
+      await registrarVistas(perfil, resultado.troca.numero);
     } else if (resultado.motivo === 'desligada') {
       await desligarTarefaDeFundo();
     }

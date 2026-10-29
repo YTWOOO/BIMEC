@@ -2,6 +2,6 @@
 export const NOME_APP = 'BIMEC';
 
 /** Etapa do plano em que o código está. Atualizar a cada etapa entregue. */
-export const ETAPA_ATUAL = 3;
+export const ETAPA_ATUAL = 4;
 
-export const VERSAO_APP = '0.3.0';
+export const VERSAO_APP = '0.4.0';

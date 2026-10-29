@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { DicionarioProvider } from '@/dicionario/DicionarioContexto';
 import { configurarComportamentoEmPrimeiroPlano } from '@/notificacoes/canais';
 import { useAbrirPelaNotificacao, useSincronizarPalavraDoDia } from '@/notificacoes/sincronizar';
 import { alfa, cores } from '@/ui/tema';
@@ -71,15 +72,17 @@ export default function LayoutRaiz() {
     <GestureHandlerRootView style={estilos.raiz}>
       <ThemeProvider value={temaNavegacao}>
         <StatusBar style="light" />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: cores.fundo },
-          }}>
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="palavra/[id]" options={{ animation: 'slide_from_right' }} />
-          <Stack.Screen name="depuracao" options={{ animation: 'slide_from_right' }} />
-        </Stack>
+        <DicionarioProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: cores.fundo },
+            }}>
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="palavra/[id]" options={{ animation: 'slide_from_right' }} />
+            <Stack.Screen name="depuracao" options={{ animation: 'slide_from_right' }} />
+          </Stack>
+        </DicionarioProvider>
         <Sincronizacao />
       </ThemeProvider>
     </GestureHandlerRootView>

@@ -6,6 +6,19 @@ export function diaLocal(data: Date = new Date()): string {
   return `${a}-${m}-${d}`;
 }
 
+/** "2026-10-29" + 3 dias → "2026-11-01". */
+export function somarDias(dia: string, dias: number): string {
+  const [a, m, d] = dia.split('-').map(Number);
+  return diaLocal(new Date(a, m - 1, d + dias));
+}
+
+/** Dias entre duas datas "AAAA-MM-DD" (b − a). */
+export function diasEntre(a: string, b: string): number {
+  const [a1, m1, d1] = a.split('-').map(Number);
+  const [a2, m2, d2] = b.split('-').map(Number);
+  return Math.round((Date.UTC(a2, m2 - 1, d2) - Date.UTC(a1, m1 - 1, d1)) / 86400000);
+}
+
 /** Hora local no formato HH:MM. */
 export function formatarHora(data: Date): string {
   return `${String(data.getHours()).padStart(2, '0')}:${String(data.getMinutes()).padStart(2, '0')}`;
