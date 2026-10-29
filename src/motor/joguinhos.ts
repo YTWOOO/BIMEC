@@ -64,10 +64,24 @@ const POR_TIPO: Record<TipoItem, Tabela> = {
   },
 };
 
-/** Joguinhos possíveis para um item num degrau. "Onde está?" só serve para preposições de lugar. */
-export function joguinhosPossiveis(tipo: TipoItem, degrau: number, estrutura?: string): Joguinho[] {
-  const lista = POR_TIPO[tipo][Math.max(0, Math.min(5, degrau))];
-  return lista.filter((j) => j !== 'onde-esta' || estrutura === 'preposicoes-lugar');
+/**
+ * Joguinhos possíveis para um item num degrau. "Onde está?" só serve para preposições de lugar.
+ * Com `disponiveis`, só entram os joguinhos que já existem no app; se o degrau não tem nenhum,
+ * desce um degrau por vez até achar.
+ */
+export function joguinhosPossiveis(
+  tipo: TipoItem,
+  degrau: number,
+  estrutura?: string,
+  disponiveis?: ReadonlySet<Joguinho>,
+): Joguinho[] {
+  for (let d = Math.max(0, Math.min(5, degrau)); d >= 0; d--) {
+    const lista = POR_TIPO[tipo][d].filter(
+      (j) => (j !== 'onde-esta' || estrutura === 'preposicoes-lugar') && (!disponiveis || disponiveis.has(j)),
+    );
+    if (lista.length > 0 || !disponiveis) return lista;
+  }
+  return [];
 }
 
 /** Joguinhos que precisam de uma frase gerada. */
@@ -88,8 +102,9 @@ export function escolherJoguinho(
   ultimos: readonly Joguinho[],
   jaUsadosNoItem: readonly Joguinho[] = [],
   estrutura?: string,
+  disponiveis?: ReadonlySet<Joguinho>,
 ): Joguinho {
-  const possiveis = embaralhar(joguinhosPossiveis(tipo, degrau, estrutura), aleatorio);
+  const possiveis = embaralhar(joguinhosPossiveis(tipo, degrau, estrutura, disponiveis), aleatorio);
   const repetiria = (j: Joguinho) => ultimos.length >= 2 && ultimos.at(-1) === j && ultimos.at(-2) === j;
   return (
     possiveis.find((j) => !repetiria(j) && !jaUsadosNoItem.includes(j)) ??

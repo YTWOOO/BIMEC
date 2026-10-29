@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -6,6 +6,7 @@ import { palavraPorId } from '@/conteudo/palavras';
 import { FraseTocavel } from '@/dicionario/FraseTocavel';
 import { nomeDoTema } from '@/conteudo/temas';
 import type { Palavra } from '@/conteudo/tipos';
+import { unidadeDaPalavra } from '@/joguinhos/sessao';
 import { useProgresso } from '@/store/progresso';
 import { BarraTopo } from '@/ui/BarraTopo';
 import { Botao } from '@/ui/Botao';
@@ -87,13 +88,22 @@ export default function TelaPalavra() {
           {item ? `Degrau ${item.degrau} de 5 · ${item.acertos} acertos, ${item.erros} erros` : 'Ainda não vista.'}
         </Texto>
         <View style={estilos.botaoPraticar}>
-          <Botao titulo="Praticar agora" desativado />
+          <BotaoPraticar palavraId={p.id} />
         </View>
-        <Texto variante="suave" style={estilos.nota}>
-          Os joguinhos chegam na etapa 5.
-        </Texto>
       </Prancha>
     </Tela>
+  );
+}
+
+/** Abre uma lição da unidade do tema com esta palavra garantida nela. */
+function BotaoPraticar({ palavraId }: { palavraId: string }) {
+  const unidade = unidadeDaPalavra(palavraId);
+  if (!unidade) return <Botao titulo="Praticar agora" desativado />;
+  return (
+    <Botao
+      titulo="Praticar agora"
+      onPress={() => router.push({ pathname: '/licao/[id]', params: { id: unidade.id, foco: palavraId } })}
+    />
   );
 }
 
@@ -174,9 +184,5 @@ const estilos = StyleSheet.create({
   },
   botaoPraticar: {
     marginTop: espaco.x4,
-  },
-  nota: {
-    marginTop: espaco.x2,
-    textAlign: 'center',
   },
 });

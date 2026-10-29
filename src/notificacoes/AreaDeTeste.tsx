@@ -20,7 +20,7 @@ function quando(iso: string | null | undefined): string {
 }
 
 /**
- * Ferramentas de teste: frases do gerador (todas as plataformas) e
+ * Ferramentas de teste: galeria de joguinhos e frases do gerador (todas as plataformas) e
  * palavra na tela de bloqueio (só Android).
  * Só aparece no modo de desenvolvimento (Expo Go), nunca no APK final.
  */
@@ -53,6 +53,7 @@ export function AreaDeTeste() {
       <Texto variante="rotulo">Área de teste · só no modo de desenvolvimento</Texto>
 
       <View style={estilos.botoes}>
+        <Botao titulo="Ver todos os joguinhos" variante="contorno" onPress={() => router.push('/licao/galeria')} />
         <Botao titulo="Ver frases geradas" variante="contorno" onPress={() => router.push('/depuracao')} />
       </View>
 

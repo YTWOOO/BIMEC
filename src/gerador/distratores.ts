@@ -29,7 +29,7 @@ export const SENTIDO_PREPOSICAO: Record<string, string> = {
 };
 
 /** Preposições que costumam ser confundidas entre si. */
-const VIZINHAS: Record<string, string[]> = {
+export const VIZINHAS: Record<string, string[]> = {
   inside: ['on', 'under'],
   in: ['on', 'under'],
   on: ['in', 'under'],

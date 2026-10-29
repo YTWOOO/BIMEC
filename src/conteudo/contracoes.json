@@ -55,7 +55,8 @@
     "pt": "da",
     "partes": ["de", "a"],
     "en": "of the / from the",
-    "exemplo": { "pt": "A chave está embaixo da mesa.", "en": "The key is under the table." }
+    "exemplo": { "pt": "A janela da cozinha está aberta.", "en": "The window of the kitchen is open." },
+    "nota": "Em \"embaixo da\", \"ao lado da\", \"dentro da\", o \"da\" faz parte da preposição: under the, next to the, inside the. A chave está embaixo da mesa = The key is under the table."
   },
   {
     "id": "naquele",

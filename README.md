@@ -48,11 +48,12 @@ Com o app aberto, toda vez que um arquivo muda a tela atualiza sozinha.
 src/
   app/            telas (Expo Router)
     (tabs)/       Início, Revisão, Estatísticas, Configurações
+    licao/        tela da lição e do resultado
     palavra/      tela de cada palavra
-    depuracao.tsx frases geradas (só no modo de desenvolvimento)
+    depuracao.tsx frases geradas e desenhos do "Onde está?" (só no modo de desenvolvimento)
   conteudo/       palavras, moldes de frase, contrações, unidades (JSON), temas e estruturas
-  gerador/        gerador de frases: português (gênero, contrações), frases e distratores
-  data/           trilha de exemplo (some na etapa 7)
+  gerador/        gerador de frases: português (gênero, contrações), frases, distratores e traduções erradas
+  joguinhos/      perguntas de cada joguinho, correção, fila da lição e os componentes de tela
   dicionario/     dicionário de toque: fichas das palavras, frase tocável e painel
   motor/          revisão espaçada, degraus, ajuste para 80%, montagem de lição e simulação
   notificacoes/   palavra na tela de bloqueio, canais, permissão, tarefa de fundo
@@ -63,6 +64,14 @@ __tests__/        testes
 ```
 
 O tema fica em `src/ui/tema.ts`. Nenhuma tela usa cor ou fonte fora dele.
+
+## Lições e joguinhos
+
+No Início, cada unidade tem o botão Começar (ou Praticar). A lição tem 12 exercícios montados pelo motor: revisões vencidas, itens em progresso e itens novos, cada um com o joguinho do seu degrau. Errou, o exercício volta no fim da lição. No fim aparece o resultado com o XP: 1 por acerto de primeira (desafio vale 2), 5 por terminar e mais 5 se não errou nenhum.
+
+Joguinhos prontos (degraus 0 a 2): Card novo, Inglês → português, Ligar pares, Onde está?, Português → inglês, Completar a frase e Ouvir e escolher. Os dos degraus 3 a 5 chegam na etapa 6; até lá, um item num degrau alto usa o joguinho pronto mais difícil.
+
+Na tela de uma palavra, **Praticar agora** abre uma lição da unidade do tema com aquela palavra garantida. No modo de desenvolvimento, Ajustes → Área de teste → **Ver todos os joguinhos** abre uma lição com um exercício de cada joguinho, que não salva nada.
 
 ## Dicionário de toque
 

@@ -51,6 +51,10 @@ export interface OpcoesLicao {
   hoje: string;
   licaoId: string;
   semente: number;
+  /** Item que precisa entrar na lição (ex.: "Praticar agora" na tela da palavra). */
+  foco?: string;
+  /** Joguinhos que já existem no app. Sem isto, vale a tabela inteira. */
+  disponiveis?: ReadonlySet<Joguinho>;
 }
 
 interface Passo {
@@ -160,13 +164,25 @@ export function montarLicao(opcoes: OpcoesLicao): Licao {
 
   let conhecidos = [...vencidos, ...emProgresso];
 
+  // O item em foco vai para a frente: já começado, entra primeiro entre os conhecidos; novo, entra como novo.
+  const foco = opcoes.foco ? pool.find((i) => i.id === opcoes.foco) : undefined;
+  const focoNovo = foco !== undefined && degrauDe(itens, foco.id) === 0;
+  if (foco && !focoNovo) {
+    conhecidos = [foco, ...conhecidos.filter((i) => i.id !== foco.id)];
+  }
+
   let quantosNovos = ajuste.novosPorLicao;
   if (conhecidos.length + quantosNovos < MIN_ITENS) quantosNovos = MIN_ITENS - conhecidos.length;
-  const novos = naoComecados.slice(0, quantosNovos);
+  if (focoNovo) quantosNovos = Math.max(1, quantosNovos);
+  const novos = (focoNovo ? [foco, ...naoComecados.filter((i) => i.id !== foco.id)] : naoComecados).slice(
+    0,
+    quantosNovos,
+  );
 
   // Sem itens suficientes, entram os já dominados, como manutenção.
   if (conhecidos.length + novos.length < MIN_ITENS) {
-    conhecidos = [...conhecidos, ...dominados.slice(0, MIN_ITENS - conhecidos.length - novos.length)];
+    const extras = dominados.filter((i) => !conhecidos.includes(i));
+    conhecidos = [...conhecidos, ...extras.slice(0, MIN_ITENS - conhecidos.length - novos.length)];
   }
 
   const espacoConhecidos = Math.max(0, TAMANHO_LICAO - 2 * novos.length);
@@ -224,6 +240,7 @@ export function montarLicao(opcoes: OpcoesLicao): Licao {
       ultimos,
       usadosPorItem.get(item.id) ?? [],
       estruturaDoItem(item.id),
+      opcoes.disponiveis,
     );
     ultimos.push(joguinho);
     usadosPorItem.set(item.id, [...(usadosPorItem.get(item.id) ?? []), joguinho]);

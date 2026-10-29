@@ -160,3 +160,11 @@ export function IconeAlvo({ tamanho = 24, cor = cores.tracoClaro }: PropsIcone) 
     </Svg>
   );
 }
+
+export function IconeFechar({ tamanho = 24, cor = cores.tracoClaro }: PropsIcone) {
+  return (
+    <Svg {...base(tamanho)}>
+      <Path d="M6 6 L18 18 M18 6 L6 18" {...traco(cor)} />
+    </Svg>
+  );
+}

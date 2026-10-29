@@ -179,26 +179,42 @@ export function gerarFrase(molde: Molde, aleatorio: Aleatorio, opcoes: OpcoesFra
     }
     if (!deuCerto) continue;
     if (opcoes.obrigatoria && !usadas.has(opcoes.obrigatoria)) continue;
-
-    const en = montar(molde.en, marcasEn, escolhidas, prep, 'en');
-    const pt = montar(molde.pt, marcasPt, escolhidas, prep, 'pt');
-    const ids = Object.fromEntries(Object.entries(escolhidas).map(([k, p]) => [k, p.id]));
-    const chave = Object.entries(ids)
-      .map(([k, v]) => `${k}=${v}`)
-      .join('|');
-    return {
-      id: `${molde.id}|${chave}${prep ? `|${prep.en}` : ''}`,
-      moldeId: molde.id,
-      estrutura: molde.estrutura,
-      en,
-      pt,
-      palavras: ids,
-      preposicao: prep?.en ?? null,
-      blocosEn: blocos(en),
-      blocosPt: blocos(pt),
-    };
+    return construirFrase(molde, escolhidas, prep);
   }
   return null;
+}
+
+/**
+ * Monta a frase de um molde com palavras e preposição já escolhidas.
+ * Também serve para versões erradas da frase (outra preposição, outro artigo, outra palavra).
+ */
+export function construirFrase(
+  molde: Molde,
+  escolhidas: Record<string, Palavra>,
+  prep: Preposicao | null,
+): FraseGerada {
+  const en = montar(molde.en, lerMarcas(molde.en), escolhidas, prep, 'en');
+  const pt = montar(molde.pt, lerMarcas(molde.pt), escolhidas, prep, 'pt');
+  const ids = Object.fromEntries(Object.entries(escolhidas).map(([k, p]) => [k, p.id]));
+  const chave = Object.entries(ids)
+    .map(([k, v]) => `${k}=${v}`)
+    .join('|');
+  return {
+    id: `${molde.id}|${chave}${prep ? `|${prep.en}` : ''}`,
+    moldeId: molde.id,
+    estrutura: molde.estrutura,
+    en,
+    pt,
+    palavras: ids,
+    preposicao: prep?.en ?? null,
+    blocosEn: blocos(en),
+    blocosPt: blocos(pt),
+  };
+}
+
+/** Espaço do molde que vem depois da preposição (o lugar), se houver. */
+export function lugarDoMolde(molde: Molde): string | null {
+  return molde.en.match(/\{prep:\w+:(\w+)\}/)?.[1] ?? null;
 }
 
 export interface OpcoesGerar extends OpcoesFrase {

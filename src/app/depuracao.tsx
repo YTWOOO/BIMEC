@@ -5,11 +5,13 @@ import { FraseTocavel } from '@/dicionario/FraseTocavel';
 import { criarAleatorio } from '@/gerador/aleatorio';
 import { blocosExtras, gerarDistratores, type TipoDistrator } from '@/gerador/distratores';
 import { gerarFrases, type FraseGerada } from '@/gerador/frases';
+import { POSICOES } from '@/joguinhos/tipos';
 import { BarraTopo } from '@/ui/BarraTopo';
 import { BotaoPequeno } from '@/ui/BotaoPequeno';
 import { Carimbo } from '@/ui/Carimbo';
 import { GrupoOpcoes } from '@/ui/Controles';
 import { Cota } from '@/ui/Cota';
+import { DesenhoPosicao } from '@/ui/DesenhoPosicao';
 import { IconeSom } from '@/ui/Icones';
 import { Prancha } from '@/ui/Prancha';
 import { Tela } from '@/ui/Tela';
@@ -71,6 +73,18 @@ export default function Depuracao() {
       {frases.map((f, i) => (
         <CartaoFrase key={f.id} frase={f} indice={i} semente={semente} />
       ))}
+
+      <Prancha>
+        <Texto variante="rotulo">Desenhos do “Onde está?”</Texto>
+        <View style={estilos.desenhos}>
+          {POSICOES.map((pos) => (
+            <View key={pos} style={estilos.desenho}>
+              <DesenhoPosicao posicao={pos} largura={130} />
+              <Texto variante="rotulo">{pos}</Texto>
+            </View>
+          ))}
+        </View>
+      </Prancha>
     </Tela>
   );
 }
@@ -162,5 +176,16 @@ const estilos = StyleSheet.create({
     fontFamily: fontes.monoMedia,
     fontSize: 14,
     color: cores.texto,
+  },
+  desenhos: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    rowGap: espaco.x3,
+    marginTop: espaco.x3,
+  },
+  desenho: {
+    alignItems: 'center',
+    gap: espaco.x1,
   },
 });

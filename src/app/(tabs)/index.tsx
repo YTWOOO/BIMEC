@@ -1,10 +1,12 @@
 import { router } from 'expo-router';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import { UNIDADES } from '@/conteudo';
 import { nomeDoTema } from '@/conteudo/temas';
-import { unidadesExemplo, type UnidadeExemplo } from '@/data/exemplo';
+import type { Unidade } from '@/conteudo/tipos';
 import { FraseTocavel } from '@/dicionario/FraseTocavel';
+import { itensDaUnidade } from '@/motor/itens';
 import { CartaoPermissao } from '@/notificacoes/CartaoPermissao';
 import { usePalavraAgora } from '@/notificacoes/usePalavraAgora';
 import { useProgresso } from '@/store/progresso';
@@ -14,7 +16,7 @@ import { Botao } from '@/ui/Botao';
 import { Carimbo } from '@/ui/Carimbo';
 import { Cota, CotaVertical } from '@/ui/Cota';
 import { FaixaPincel } from '@/ui/FaixaPincel';
-import { IconeCadeado, IconeChama, IconeCheck, IconeLivro, IconeRaio, IconeSom } from '@/ui/Icones';
+import { IconeChama, IconeCheck, IconeLivro, IconeRaio, IconeSom } from '@/ui/Icones';
 import { Logo } from '@/ui/Logo';
 import { Prancha } from '@/ui/Prancha';
 import { Tela } from '@/ui/Tela';
@@ -31,6 +33,11 @@ export default function Inicio() {
   const nivel = nivelAtual(itens);
   const xpHoje = xpDeHoje(perfil, hoje);
   const { vistas } = resumoPalavras(itens);
+  // A unidade em destaque é a primeira que ainda tem itens por começar.
+  const unidadeAtual = UNIDADES.find((u) => {
+    const { comecados, total } = andamento(u, itens);
+    return comecados < total;
+  })?.id;
 
   return (
     <Tela>
@@ -74,10 +81,10 @@ export default function Inicio() {
       <FaixaPincel texto="Sua trilha" />
 
       <View>
-        {unidadesExemplo.map((u, i) => (
-          <Fragment key={u.numero}>
+        {UNIDADES.map((u, i) => (
+          <Fragment key={u.id}>
             {i > 0 && <CotaVertical />}
-            <CartaoUnidade unidade={u} />
+            <CartaoUnidade unidade={u} atual={u.id === unidadeAtual} />
           </Fragment>
         ))}
       </View>
@@ -144,44 +151,55 @@ function PalavraDeAgora() {
   );
 }
 
-function CartaoUnidade({ unidade: u }: { unidade: UnidadeExemplo }) {
-  const [aviso, setAviso] = useState(false);
-  const bloqueada = u.estado === 'bloqueada';
-  const atual = u.estado === 'atual';
+function andamento(u: Unidade, itens: Record<string, { degrau: number }>) {
+  const pool = itensDaUnidade(u);
+  return {
+    total: pool.length,
+    comecados: pool.filter((i) => (itens[i.id]?.degrau ?? 0) >= 1).length,
+    dominados: pool.filter((i) => (itens[i.id]?.degrau ?? 0) >= 5).length,
+  };
+}
+
+/**
+ * Unidade da trilha. Por enquanto todas ficam abertas, para dar para praticar qualquer uma;
+ * cadeados, lições contadas e chefão chegam na etapa 7.
+ */
+function CartaoUnidade({ unidade: u, atual }: { unidade: Unidade; atual: boolean }) {
+  const itens = useProgresso((s) => s.itens);
+  const { total, comecados, dominados } = andamento(u, itens);
+  const completa = total > 0 && comecados === total;
   return (
-    <Prancha destaque={atual} tracejada={bloqueada}>
+    <Prancha destaque={atual}>
       <View style={estilos.topoUnidade}>
         <Carimbo
-          partes={[`Unidade ${doisDigitos(u.numero)}`, u.tipo]}
+          partes={[`Unidade ${doisDigitos(u.numero)}`, u.tipo === 'tema' ? 'Tema' : 'Estrutura']}
           cor={atual ? cores.tracoClaro : cores.textoSuave}
         />
-        {u.estado === 'concluida' && <IconeCheck tamanho={20} />}
-        {bloqueada && <IconeCadeado tamanho={18} />}
+        {completa && <IconeCheck tamanho={20} />}
       </View>
-      <Texto variante="subtitulo" cor={bloqueada ? cores.textoSuave : cores.texto} style={estilos.tituloUnidade}>
+      <Texto variante="subtitulo" style={estilos.tituloUnidade}>
         {u.titulo}
       </Texto>
       <View style={estilos.linhaProgresso}>
         <View style={estilos.flex}>
-          <BarraProgresso
-            fracao={u.licoesFeitas / u.licoesTotal}
-            cor={u.estado === 'concluida' ? cores.acerto : cores.tracoClaro}
-          />
+          <BarraProgresso fracao={total > 0 ? comecados / total : 0} cor={completa ? cores.acerto : cores.tracoClaro} />
         </View>
         <Texto variante="rotulo">
-          {u.licoesFeitas}/{u.licoesTotal} lições
+          {comecados}/{total} {u.tipo === 'tema' ? 'palavras' : 'itens'}
         </Texto>
       </View>
-      {atual && (
-        <View style={estilos.acaoUnidade}>
-          <Botao titulo="Continuar" onPress={() => setAviso(true)} />
-          {aviso && (
-            <Texto variante="suave" style={estilos.aviso}>
-              As lições chegam na etapa 5. Por enquanto a trilha é só de exemplo.
-            </Texto>
-          )}
-        </View>
+      {dominados > 0 && (
+        <Texto variante="suave" style={estilos.dominados}>
+          {dominados} {dominados === 1 ? 'dominado' : 'dominados'}
+        </Texto>
       )}
+      <View style={estilos.acaoUnidade}>
+        <Botao
+          titulo={comecados === 0 ? 'Começar' : 'Praticar'}
+          variante={atual ? 'principal' : 'contorno'}
+          onPress={() => router.push({ pathname: '/licao/[id]', params: { id: u.id } })}
+        />
+      </View>
     </Prancha>
   );
 }
@@ -249,9 +267,8 @@ const estilos = StyleSheet.create({
   },
   acaoUnidade: {
     marginTop: espaco.x4,
-    gap: espaco.x2,
   },
-  aviso: {
-    textAlign: 'center',
+  dominados: {
+    marginTop: espaco.x2,
   },
 });

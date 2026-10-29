@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { apresentar, facilDemais, novoItem, registrarResposta, type DadosResposta } from '@/motor/srs';
+import { somarXp } from '@/motor/xp';
 import { somarMinutos } from '@/util/datas';
 
 import {
@@ -41,6 +42,8 @@ type Acoes = {
   marcarFacilDemais: (itemId: string, tipo: TipoItem, hoje: string) => void;
   /** Guarda o limite de palavras por frase que o ajuste calculou. */
   definirLimiteFrase: (limite: number) => void;
+  /** XP de uma lição terminada. */
+  ganharXp: (xp: number, dia: string) => void;
   /** Apaga todo o progresso e volta às configurações padrão. */
   resetar: () => void;
 };
@@ -116,6 +119,8 @@ export const useProgresso = create<EstadoProgresso>()(
         })),
 
       definirLimiteFrase: (limite) => set((s) => ({ perfil: { ...s.perfil, limiteFrase: limite } })),
+
+      ganharXp: (xp, dia) => set((s) => ({ perfil: somarXp(s.perfil, xp, dia) })),
 
       resetar: () => set({ ...dadosIniciais() }),
     }),
