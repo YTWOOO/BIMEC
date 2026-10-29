@@ -56,10 +56,20 @@ describe('migração dos dados salvos', () => {
   });
 
   it('migra da versão 0 para a atual', () => {
-    expect(VERSAO_ESQUEMA).toBe(1);
+    expect(VERSAO_ESQUEMA).toBe(2);
     const r = migrar({ perfil: { ofensiva: 4 } }, 0);
     expect(r.perfil.ofensiva).toBe(4);
     expect(r.perfil.intervaloPalavraHoras).toBe(3);
+  });
+
+  it('migra da versão 1: liga a palavra na tela de bloqueio', () => {
+    const v1 = { perfil: { ...perfilPadrao(), metaDiariaXp: 50 }, itens: {}, historico: [] };
+    delete (v1.perfil as Partial<typeof v1.perfil>).palavraNaTelaDeBloqueio;
+    delete (v1.perfil as Partial<typeof v1.perfil>).ultimaTrocaRegistrada;
+    const r = migrar(v1, 1);
+    expect(r.perfil.metaDiariaXp).toBe(50);
+    expect(r.perfil.palavraNaTelaDeBloqueio).toBe(true);
+    expect(r.perfil.ultimaTrocaRegistrada).toBeNull();
   });
 });
 
@@ -82,6 +92,23 @@ describe('store de progresso', () => {
     const { perfil } = useProgresso.getState();
     expect(perfil.silencio.inicio).toBe('00:30');
     expect(perfil.horarioLembrete).toBe('18:30');
+  });
+
+  it('registra palavras vistas sem apagar progresso que já existe', () => {
+    useProgresso.getState().registrarPalavrasVistas(['apple', 'egg'], '2026-10-29', { numero: 7, config: 'x' });
+    useProgresso.setState((s) => ({ itens: { ...s.itens, egg: { ...s.itens.egg, degrau: 3 } } }));
+    useProgresso.getState().registrarPalavrasVistas(['egg', 'milk'], '2026-10-30');
+    const { itens, perfil } = useProgresso.getState();
+    expect(itens.apple.vistoEm).toBe('2026-10-29');
+    expect(itens.egg.degrau).toBe(3);
+    expect(itens.egg.vistoEm).toBe('2026-10-29');
+    expect(itens.milk.vistoEm).toBe('2026-10-30');
+    expect(perfil.ultimaTrocaRegistrada).toEqual({ numero: 7, config: 'x' });
+  });
+
+  it('liga e desliga a palavra na tela de bloqueio', () => {
+    useProgresso.getState().definirPalavraNaTela(false);
+    expect(useProgresso.getState().perfil.palavraNaTelaDeBloqueio).toBe(false);
   });
 
   it('resetar volta tudo ao padrão', () => {

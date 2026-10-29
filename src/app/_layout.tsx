@@ -1,3 +1,7 @@
+// Precisa vir antes de tudo: silencia o aviso de push do Expo Go e define a tarefa de fundo.
+import '@/util/silenciarAvisos';
+import '@/notificacoes/tarefa';
+
 import { IBMPlexMono_400Regular } from '@expo-google-fonts/ibm-plex-mono/400Regular';
 import { IBMPlexMono_500Medium } from '@expo-google-fonts/ibm-plex-mono/500Medium';
 import { IBMPlexMono_600SemiBold } from '@expo-google-fonts/ibm-plex-mono/600SemiBold';
@@ -13,9 +17,19 @@ import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { configurarComportamentoEmPrimeiroPlano } from '@/notificacoes/canais';
+import { useAbrirPelaNotificacao, useSincronizarPalavraDoDia } from '@/notificacoes/sincronizar';
 import { alfa, cores } from '@/ui/tema';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
+configurarComportamentoEmPrimeiroPlano();
+
+/** Mantém a palavra da tela de bloqueio em dia e abre a palavra tocada na notificação. */
+function Sincronizacao() {
+  useSincronizarPalavraDoDia();
+  useAbrirPelaNotificacao();
+  return null;
+}
 
 const temaNavegacao = {
   ...DarkTheme,
@@ -63,7 +77,9 @@ export default function LayoutRaiz() {
             contentStyle: { backgroundColor: cores.fundo },
           }}>
           <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="palavra/[id]" options={{ animation: 'slide_from_right' }} />
         </Stack>
+        <Sincronizacao />
       </ThemeProvider>
     </GestureHandlerRootView>
   );

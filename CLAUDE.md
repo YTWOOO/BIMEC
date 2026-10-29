@@ -1,10 +1,10 @@
-# BIMEC / Encaixe
+# BIMEC
 
 App Android de inglês (React Native + Expo SDK 58, TypeScript). Leia também `AGENTS.md`.
 
 ## Fonte da verdade
 
-O plano do app é o documento **Encaixe — Plano do App** (Claude Docs):
+O plano do app é o documento **BIMEC — Plano do App** (Claude Docs):
 https://claude.ai/artifact/WkRgqVL6mHgyExAvzDQe8x
 
 A cada prompt: ler o documento, fazer só a próxima etapa com tarefas abertas, rodar as verificações, marcar as tarefas no documento e entregar com um roteiro de teste para o Ícaro. Atualizar `ETAPA_ATUAL` em `src/config.ts`.

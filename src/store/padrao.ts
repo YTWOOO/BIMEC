@@ -4,7 +4,10 @@ import type { DadosSalvos, ItemProgresso, Perfil } from './tipos';
  * Versão do formato dos dados salvos.
  * Subir este número sempre que o formato mudar e tratar a mudança em `migrar`.
  */
-export const VERSAO_ESQUEMA = 1;
+export const VERSAO_ESQUEMA = 2;
+
+/** Chave do AsyncStorage onde o progresso fica salvo. */
+export const CHAVE_ARMAZENAMENTO = 'bimec-progresso';
 
 export function perfilPadrao(): Perfil {
   return {
@@ -19,6 +22,24 @@ export function perfilPadrao(): Perfil {
     silencio: { inicio: '23:00', fim: '07:00' },
     categoriasAtivas: [],
     nivelamentoFeito: false,
+    palavraNaTelaDeBloqueio: true,
+    ultimaTrocaRegistrada: null,
+  };
+}
+
+/** Item novo de palavra, marcado como visto no dia informado. */
+export function novoItemPalavra(id: string, dia: string): ItemProgresso {
+  return {
+    id,
+    tipo: 'palavra',
+    degrau: 0,
+    acertosSeguidos: 0,
+    intervaloDias: 0,
+    facilidade: 2.3,
+    proximaRevisao: null,
+    vistoEm: dia,
+    acertos: 0,
+    erros: 0,
   };
 }
 
@@ -52,8 +73,9 @@ export function mesclarComPadrao(salvo: unknown): DadosSalvos {
 
 /** Converte dados de uma versão antiga para a atual. */
 export function migrar(salvo: unknown, versaoSalva: number): DadosSalvos {
-  // Versão 0: qualquer formato anterior ao primeiro esquema oficial.
-  // Hoje basta completar com os padrões; versões futuras entram aqui em ordem.
+  // v0 → v1: qualquer formato anterior ao primeiro esquema oficial.
+  // v1 → v2: perfil ganhou palavraNaTelaDeBloqueio e ultimaTrocaRegistrada.
+  // Nos dois casos basta completar com os padrões; versões futuras entram aqui em ordem.
   if (versaoSalva < VERSAO_ESQUEMA) {
     return mesclarComPadrao(salvo);
   }

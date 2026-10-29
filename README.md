@@ -1,8 +1,8 @@
-# Encaixe (BIMEC)
+# BIMEC
 
 App Android para aprender inglês juntando palavras em frases, com palavra do dia na tela de bloqueio e dificuldade que acompanha a evolução. Feito com React Native + Expo (SDK 58), em TypeScript, tudo offline.
 
-O plano completo, com as 10 etapas, está no documento **Encaixe — Plano do App**. Cada etapa é feita em um prompt e termina com o app abrindo no Expo Go.
+O plano completo, com as 10 etapas, está no documento **BIMEC — Plano do App**. Cada etapa é feita em um prompt e termina com o app abrindo no Expo Go.
 
 ## Como rodar no celular
 
@@ -48,11 +48,20 @@ Com o app aberto, toda vez que um arquivo muda a tela atualiza sozinha.
 src/
   app/            telas (Expo Router)
     (tabs)/       Início, Revisão, Estatísticas, Configurações
-  data/           conteúdo (por enquanto, só exemplo)
+    palavra/      tela de cada palavra
+  conteudo/       palavras (JSON) e temas
+  data/           trilha de exemplo (some na etapa 7)
+  notificacoes/   palavra na tela de bloqueio, canais, permissão, tarefa de fundo
   store/          progresso salvo no celular (zustand + AsyncStorage)
   ui/             tema planta técnica e componentes visuais
-  util/           datas e formatação
+  util/           datas, áudio e formatação
 __tests__/        testes
 ```
 
 O tema fica em `src/ui/tema.ts`. Nenhuma tela usa cor ou fonte fora dele.
+
+## Palavra na tela de bloqueio
+
+A palavra fica numa notificação fixa e troca no intervalo escolhido em Ajustes, fora do horário de silêncio. Toda troca usa o mesmo identificador, então a notificação nova substitui a anterior. Duas coisas fazem a troca acontecer com o app fechado: a próxima troca já fica agendada, e uma tarefa de fundo confere a palavra mais ou menos a cada 15 minutos.
+
+No modo de desenvolvimento, Ajustes mostra uma **Área de teste** para forçar a palavra, testar uma troca em 1 minuto e rodar a tarefa de fundo.

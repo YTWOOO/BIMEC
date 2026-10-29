@@ -1,17 +1,7 @@
 /**
- * Conteúdo de exemplo da etapa 1, só para mostrar o visual.
- * A palavra vira conteúdo real na etapa 2 e a trilha real entra na etapa 7.
+ * Trilha de exemplo, só para mostrar o visual.
+ * A trilha real entra na etapa 7.
  */
-
-export const palavraExemplo = {
-  en: 'apple',
-  pt: 'maçã',
-  categoria: 'Comida e bebida',
-  exemplo: {
-    en: 'An apple inside a book.',
-    pt: 'Uma maçã dentro de um livro.',
-  },
-};
 
 export type EstadoUnidade = 'concluida' | 'atual' | 'bloqueada';
 

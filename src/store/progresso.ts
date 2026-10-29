@@ -4,21 +4,38 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { somarMinutos } from '@/util/datas';
 
-import { VERSAO_ESQUEMA, dadosIniciais, mesclarComPadrao, migrar } from './padrao';
-import type { DadosSalvos, IntervaloPalavra } from './tipos';
+import {
+  CHAVE_ARMAZENAMENTO,
+  VERSAO_ESQUEMA,
+  dadosIniciais,
+  mesclarComPadrao,
+  migrar,
+  novoItemPalavra,
+} from './padrao';
+import type { DadosSalvos, IntervaloPalavra, Perfil } from './tipos';
 
 type Acoes = {
   definirMetaDiaria: (xp: number) => void;
   definirIntervaloPalavra: (horas: IntervaloPalavra) => void;
   moverSilencio: (ponta: 'inicio' | 'fim', minutos: number) => void;
   moverLembrete: (minutos: number) => void;
+  definirPalavraNaTela: (ligada: boolean) => void;
+  /**
+   * Marca palavras como vistas (cria o item se ainda não existe).
+   * `marca` atualiza a última troca registrada, quando vem da tela de bloqueio.
+   */
+  registrarPalavrasVistas: (
+    ids: string[],
+    dia: string,
+    marca?: NonNullable<Perfil['ultimaTrocaRegistrada']>,
+  ) => void;
   /** Apaga todo o progresso e volta às configurações padrão. */
   resetar: () => void;
 };
 
 export type EstadoProgresso = DadosSalvos & Acoes & { hidratado: boolean };
 
-export const CHAVE_ARMAZENAMENTO = 'bimec-progresso';
+export { CHAVE_ARMAZENAMENTO };
 
 export const useProgresso = create<EstadoProgresso>()(
   persist(
@@ -43,6 +60,26 @@ export const useProgresso = create<EstadoProgresso>()(
         set((s) => ({
           perfil: { ...s.perfil, horarioLembrete: somarMinutos(s.perfil.horarioLembrete, minutos) },
         })),
+
+      definirPalavraNaTela: (ligada) =>
+        set((s) => ({ perfil: { ...s.perfil, palavraNaTelaDeBloqueio: ligada } })),
+
+      registrarPalavrasVistas: (ids, dia, marca) =>
+        set((s) => {
+          const itens = { ...s.itens };
+          for (const id of ids) {
+            const atual = itens[id];
+            if (!atual) {
+              itens[id] = novoItemPalavra(id, dia);
+            } else if (atual.vistoEm === null) {
+              itens[id] = { ...atual, vistoEm: dia };
+            }
+          }
+          return {
+            itens,
+            perfil: marca ? { ...s.perfil, ultimaTrocaRegistrada: marca } : s.perfil,
+          };
+        }),
 
       resetar: () => set({ ...dadosIniciais() }),
     }),

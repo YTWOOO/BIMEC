@@ -2,19 +2,62 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ETAPA_ATUAL, NOME_APP, VERSAO_APP } from '@/config';
+import { AreaDeTeste } from '@/notificacoes/AreaDeTeste';
+import { palavraAgora } from '@/notificacoes/palavraDoDia';
+import { usePermissao } from '@/notificacoes/usePermissao';
 import { VERSAO_ESQUEMA } from '@/store/padrao';
 import { useProgresso } from '@/store/progresso';
 import { INTERVALOS_PALAVRA, METAS_DIARIAS } from '@/store/tipos';
 import { Botao } from '@/ui/Botao';
 import { GrupoOpcoes, Passo } from '@/ui/Controles';
 import { Cota } from '@/ui/Cota';
+import { Interruptor } from '@/ui/Interruptor';
 import { Prancha } from '@/ui/Prancha';
 import { Tela } from '@/ui/Tela';
 import { Texto } from '@/ui/Texto';
-import { espaco } from '@/ui/tema';
+import { cores, espaco } from '@/ui/tema';
+import { formatarHora } from '@/util/datas';
+import { useAgora } from '@/util/useAgora';
+
+function StatusPermissao() {
+  const { estado, pedir } = usePermissao();
+  if (estado === 'carregando') return null;
+  if (estado === 'indisponivel') {
+    return (
+      <Texto variante="suave" style={estilos.nota}>
+        A palavra na tela de bloqueio só funciona no celular Android.
+      </Texto>
+    );
+  }
+  if (estado === 'concedida') {
+    return (
+      <Texto variante="rotulo" cor={cores.acerto} style={estilos.nota}>
+        Notificações liberadas
+      </Texto>
+    );
+  }
+  return (
+    <View style={estilos.nota}>
+      <Texto variante="suave">
+        {estado === 'negada'
+          ? 'As notificações estão bloqueadas para o app. Libere nas configurações do celular.'
+          : 'Falta liberar as notificações.'}
+      </Texto>
+      <View style={estilos.botaoPermissao}>
+        <Botao
+          titulo={estado === 'negada' ? 'Abrir configurações' : 'Permitir notificações'}
+          variante="contorno"
+          onPress={pedir}
+        />
+      </View>
+    </View>
+  );
+}
 
 export default function Config() {
   const perfil = useProgresso((s) => s.perfil);
+  const agora = useAgora();
+  const definirPalavraNaTela = useProgresso((s) => s.definirPalavraNaTela);
   const definirIntervaloPalavra = useProgresso((s) => s.definirIntervaloPalavra);
   const moverSilencio = useProgresso((s) => s.moverSilencio);
   const moverLembrete = useProgresso((s) => s.moverLembrete);
@@ -31,6 +74,16 @@ export default function Config() {
 
       <Prancha>
         <Texto variante="rotulo">Palavra na tela de bloqueio</Texto>
+        <View style={estilos.pergunta}>
+          <Interruptor
+            rotulo="Mostrar a palavra"
+            descricao="Fica fixa na tela de bloqueio e troca sozinha."
+            valor={perfil.palavraNaTelaDeBloqueio}
+            aoMudar={definirPalavraNaTela}
+          />
+        </View>
+        <StatusPermissao />
+        <Cota />
         <Texto variante="corpo" style={estilos.pergunta}>
           Trocar a palavra a cada
         </Texto>
@@ -67,10 +120,14 @@ export default function Config() {
             rotuloAcessivel="fim do horário de silêncio"
           />
         </View>
-        <Texto variante="suave" style={estilos.nota}>
-          A palavra começa a aparecer na tela de bloqueio na etapa 2.
-        </Texto>
+        {perfil.palavraNaTelaDeBloqueio && (
+          <Texto variante="suave" style={estilos.nota}>
+            Próxima troca às {formatarHora(palavraAgora(perfil, agora).troca.proxima)}.
+          </Texto>
+        )}
       </Prancha>
+
+      <AreaDeTeste />
 
       <Prancha>
         <Texto variante="rotulo">Lembrete diário</Texto>
@@ -152,6 +209,9 @@ const estilos = StyleSheet.create({
     width: 36,
   },
   nota: {
+    marginTop: espaco.x3,
+  },
+  botaoPermissao: {
     marginTop: espaco.x3,
   },
   cancelar: {

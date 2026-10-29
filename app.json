@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Encaixe",
+    "name": "BIMEC",
     "slug": "bimec",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "bimec",
@@ -32,7 +32,14 @@
         }
       ],
       "expo-sharing",
-      "expo-font"
+      "expo-font",
+      "expo-background-task",
+      [
+        "expo-notifications",
+        {
+          "color": "#4F8CFF"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

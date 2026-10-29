@@ -1,8 +1,11 @@
-import * as Speech from 'expo-speech';
+import { router } from 'expo-router';
 import { Fragment, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { palavraExemplo, unidadesExemplo, type UnidadeExemplo } from '@/data/exemplo';
+import { nomeDoTema } from '@/conteudo/temas';
+import { unidadesExemplo, type UnidadeExemplo } from '@/data/exemplo';
+import { CartaoPermissao } from '@/notificacoes/CartaoPermissao';
+import { palavraAgora } from '@/notificacoes/palavraDoDia';
 import { useProgresso } from '@/store/progresso';
 import { nivelAtual, resumoPalavras, xpDeHoje } from '@/store/selecionar';
 import { BarraProgresso } from '@/ui/BarraProgresso';
@@ -16,8 +19,10 @@ import { Prancha } from '@/ui/Prancha';
 import { Tela } from '@/ui/Tela';
 import { Texto } from '@/ui/Texto';
 import { alfa, cores, espaco } from '@/ui/tema';
-import { diaLocal } from '@/util/datas';
+import { falar } from '@/util/audio';
+import { diaLocal, formatarHora } from '@/util/datas';
 import { doisDigitos } from '@/util/formatar';
+import { useAgora } from '@/util/useAgora';
 
 export default function Inicio() {
   const perfil = useProgresso((s) => s.perfil);
@@ -62,6 +67,8 @@ export default function Inicio() {
         </Prancha>
       </View>
 
+      <CartaoPermissao />
+
       <PalavraDeAgora />
 
       <FaixaPincel texto="Sua trilha" />
@@ -78,40 +85,46 @@ export default function Inicio() {
   );
 }
 
+/** A mesma palavra que está na tela de bloqueio agora. */
 function PalavraDeAgora() {
-  const p = palavraExemplo;
-  const ouvir = (texto: string) => {
-    Speech.stop();
-    Speech.speak(texto, { language: 'en-US', rate: 0.9 });
-  };
+  const perfil = useProgresso((s) => s.perfil);
+  const agora = useAgora();
+  const { troca, palavra: p } = palavraAgora(perfil, agora);
+  const abrir = () => router.push({ pathname: '/palavra/[id]', params: { id: p.id } });
+
   return (
-    <Prancha>
-      <Texto variante="rotulo">Palavra de agora · {p.categoria}</Texto>
-      <View style={estilos.linhaPalavra}>
-        <View style={estilos.flex}>
-          <Texto variante="destaque">{p.en}</Texto>
-          <Texto variante="subtitulo" cor={cores.textoSuave}>
-            {p.pt}
-          </Texto>
+    <Pressable onPress={abrir} accessibilityRole="button" accessibilityLabel={`Abrir a palavra ${p.en}`}>
+      <Prancha>
+        <Texto variante="rotulo">Palavra de agora · {nomeDoTema(p.tema)}</Texto>
+        <View style={estilos.linhaPalavra}>
+          <View style={estilos.flex}>
+            <Texto variante="destaque">{p.en}</Texto>
+            <Texto variante="subtitulo" cor={cores.textoSuave}>
+              {p.pt}
+            </Texto>
+          </View>
+          <Pressable
+            onPress={() => falar(p.en)}
+            accessibilityRole="button"
+            accessibilityLabel={`Ouvir ${p.en}`}
+            hitSlop={8}
+            style={({ pressed }) => [estilos.botaoSom, pressed && { opacity: 0.6 }]}>
+            <IconeSom tamanho={22} />
+          </Pressable>
         </View>
-        <Pressable
-          onPress={() => ouvir(p.en)}
-          accessibilityRole="button"
-          accessibilityLabel={`Ouvir ${p.en}`}
-          hitSlop={8}
-          style={({ pressed }) => [estilos.botaoSom, pressed && { opacity: 0.6 }]}>
-          <IconeSom tamanho={22} />
-        </Pressable>
-      </View>
-      <Cota rotulo="exemplo" />
-      <Pressable
-        onPress={() => ouvir(p.exemplo.en)}
-        accessibilityRole="button"
-        accessibilityHint="Toque para ouvir a frase">
+        <Cota rotulo="exemplo" />
         <Texto variante="corpoForte">{p.exemplo.en}</Texto>
         <Texto variante="suave">{p.exemplo.pt}</Texto>
-      </Pressable>
-    </Prancha>
+        <View style={estilos.rodapePalavra}>
+          <Texto variante="rotulo" style={estilos.rotuloPequeno}>
+            Troca às {formatarHora(troca.proxima)}
+          </Texto>
+          <Texto variante="rotulo" cor={cores.tracoClaro} style={estilos.rotuloPequeno}>
+            Ver mais →
+          </Texto>
+        </View>
+      </Prancha>
+    </Pressable>
   );
 }
 
@@ -183,6 +196,14 @@ const estilos = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: espaco.x2,
+  },
+  rodapePalavra: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: espaco.x3,
+  },
+  rotuloPequeno: {
+    fontSize: 10,
   },
   botaoSom: {
     width: 44,

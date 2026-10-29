@@ -119,6 +119,35 @@ export function IconeSom({ tamanho = 24, cor = cores.tracoClaro }: PropsIcone) {
   );
 }
 
+export function IconeSino({ tamanho = 24, cor = cores.tracoClaro }: PropsIcone) {
+  return (
+    <Svg {...base(tamanho)}>
+      <Path d="M6 17 V11 A6 6 0 0 1 18 11 V17 L19.5 19 H4.5 Z" {...traco(cor)} />
+      <Path d="M10 21.5 A2 2 0 0 0 14 21.5" {...traco(cor)} />
+    </Svg>
+  );
+}
+
+export function IconeVoltar({ tamanho = 24, cor = cores.tracoClaro }: PropsIcone) {
+  return (
+    <Svg {...base(tamanho)}>
+      <Path d="M15 5 L8 12 L15 19" {...traco(cor)} />
+    </Svg>
+  );
+}
+
+export function IconeTartaruga({ tamanho = 24, cor = cores.tracoClaro }: PropsIcone) {
+  return (
+    <Svg {...base(tamanho)}>
+      <Path d="M4 15 A8 6 0 0 1 20 15 Z" {...traco(cor)} />
+      <Path d="M20 15 H22 A2 2 0 0 0 20 12" {...traco(cor)} />
+      <Line x1={7} y1={15} x2={6} y2={18} {...traco(cor)} />
+      <Line x1={16} y1={15} x2={17} y2={18} {...traco(cor)} />
+      <Path d="M8 11.5 L10 14 M12 9.5 V14 M16 11.5 L14 14" {...traco(cor)} />
+    </Svg>
+  );
+}
+
 export function IconeAlvo({ tamanho = 24, cor = cores.tracoClaro }: PropsIcone) {
   return (
     <Svg {...base(tamanho)}>

@@ -7,7 +7,7 @@ import { Texto } from './Texto';
 import { cores, espaco, fontes } from './tema';
 
 /** Duas peças que se encaixam, desenhadas só no traço. */
-export function MarcaEncaixe({ tamanho = 28 }: { tamanho?: number }) {
+export function MarcaBimec({ tamanho = 28 }: { tamanho?: number }) {
   return (
     <Svg width={tamanho} height={tamanho} viewBox="0 0 28 28">
       <Path
@@ -31,7 +31,7 @@ export function MarcaEncaixe({ tamanho = 28 }: { tamanho?: number }) {
 export function Logo() {
   return (
     <View style={estilos.linha} accessibilityRole="header" accessibilityLabel={NOME_APP}>
-      <MarcaEncaixe />
+      <MarcaBimec />
       <Texto style={estilos.nome}>{NOME_APP.toUpperCase()}</Texto>
     </View>
   );

@@ -41,6 +41,13 @@ export interface Perfil {
   /** Categorias ligadas. Lista vazia quer dizer todas. */
   categoriasAtivas: string[];
   nivelamentoFeito: boolean;
+  /** Mostrar a palavra fixa na tela de bloqueio. */
+  palavraNaTelaDeBloqueio: boolean;
+  /**
+   * Última troca da palavra já registrada como "vista".
+   * `config` guarda intervalo e silêncio da época: se mudarem, a numeração das trocas muda.
+   */
+  ultimaTrocaRegistrada: { numero: number; config: string } | null;
 }
 
 export interface Resposta {
