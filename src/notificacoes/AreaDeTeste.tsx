@@ -9,6 +9,7 @@ import { Texto } from '@/ui/Texto';
 import { cores, espaco } from '@/ui/tema';
 import { formatarDataHora, formatarHora } from '@/util/datas';
 
+import { canaisCriados } from './canais';
 import { agendarTrocaDeTeste, lerRegistroPalavra, type RegistroPalavra } from './palavraDoDia';
 import { sincronizarPalavraDoDia } from './sincronizar';
 import { lerEstadoTarefa, rodarTarefaAgora } from './tarefa';
@@ -31,15 +32,23 @@ export function AreaDeTeste() {
   const [mensagem, setMensagem] = useState<string | null>(null);
 
   const recarregar = useCallback(() => {
-    lerRegistroPalavra().then(setRegistro);
-    lerEstadoTarefa().then(setTarefa);
+    lerRegistroPalavra()
+      .then(setRegistro)
+      .catch(() => {});
+    lerEstadoTarefa()
+      .then(setTarefa)
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
     if (!__DEV__ || Platform.OS !== 'android') return;
     let ativo = true;
-    lerRegistroPalavra().then((r) => ativo && setRegistro(r));
-    lerEstadoTarefa().then((t) => ativo && setTarefa(t));
+    lerRegistroPalavra()
+      .then((r) => ativo && setRegistro(r))
+      .catch(() => {});
+    lerEstadoTarefa()
+      .then((t) => ativo && setTarefa(t))
+      .catch(() => {});
     return () => {
       ativo = false;
     };
@@ -83,6 +92,16 @@ function TestesDaNotificacao({ registro, tarefa, mensagem, setMensagem, recarreg
           valor={tarefa ? `${tarefa.disponivel ? 'disponível' : 'indisponível'} · ${tarefa.registrada ? 'ligada' : 'desligada'}` : '—'}
         />
         <Linha rotulo="Última execução da tarefa" valor={quando(tarefa?.ultimaExecucao)} />
+        <Linha
+          rotulo="Canais do BIMEC"
+          valor={
+            canaisCriados() === null
+              ? '—'
+              : canaisCriados()
+                ? 'criados'
+                : 'não criados (normal no Expo Go: usa o canal padrão)'
+          }
+        />
       </View>
 
       {mensagem && (
@@ -95,40 +114,55 @@ function TestesDaNotificacao({ registro, tarefa, mensagem, setMensagem, recarreg
         <Botao
           titulo="Mostrar a palavra agora"
           variante="contorno"
-          onPress={async () => {
-            const r = await sincronizarPalavraDoDia(true);
-            setMensagem(
-              r?.ativo
-                ? `"${r.palavra.en}" está na tela de bloqueio.`
-                : 'Não apareceu: confira a permissão e a chave acima.',
-            );
-            recarregar();
-          }}
+          onPress={() =>
+            tentar(setMensagem, async () => {
+              const r = await sincronizarPalavraDoDia(true);
+              setMensagem(
+                r?.ativo
+                  ? `"${r.palavra.en}" está na tela de bloqueio.`
+                  : 'Não apareceu: confira a permissão e a chave acima.',
+              );
+              recarregar();
+            })
+          }
         />
         <Botao
           titulo="Trocar daqui a 1 minuto"
           variante="contorno"
-          onPress={async () => {
-            const p = await agendarTrocaDeTeste(perfil);
-            const hora = formatarHora(new Date(Date.now() + 60 * 1000));
-            setMensagem(
-              `"${p.en}" entra por volta das ${hora}. Bloqueie o celular e veja se a palavra troca ou se aparecem duas.`,
-            );
-          }}
+          onPress={() =>
+            tentar(setMensagem, async () => {
+              const p = await agendarTrocaDeTeste(perfil);
+              const hora = formatarHora(new Date(Date.now() + 60 * 1000));
+              setMensagem(
+                `"${p.en}" entra por volta das ${hora}. Bloqueie o celular e veja se a palavra troca ou se aparecem duas.`,
+              );
+            })
+          }
         />
         <Botao
           titulo="Rodar a tarefa de fundo"
           variante="contorno"
-          onPress={async () => {
-            const ok = await rodarTarefaAgora();
-            setMensagem(ok ? 'Tarefa pedida. Os dados atualizam em alguns segundos.' : 'O sistema não rodou a tarefa.');
-            setTimeout(recarregar, 3000);
-          }}
+          onPress={() =>
+            tentar(setMensagem, async () => {
+              const ok = await rodarTarefaAgora();
+              setMensagem(ok ? 'Tarefa pedida. Os dados atualizam em alguns segundos.' : 'O sistema não rodou a tarefa.');
+              setTimeout(recarregar, 3000);
+            })
+          }
         />
         <Botao titulo="Atualizar dados" variante="contorno" onPress={recarregar} />
       </View>
     </>
   );
+}
+
+/** Roda uma ação de teste e, se der erro, mostra o erro na tela para o Ícaro mandar o print. */
+async function tentar(setMensagem: (m: string | null) => void, acao: () => Promise<void>) {
+  try {
+    await acao();
+  } catch (erro) {
+    setMensagem(`Erro: ${erro instanceof Error ? erro.message : String(erro)}`);
+  }
 }
 
 function Linha({ rotulo, valor }: { rotulo: string; valor: string }) {

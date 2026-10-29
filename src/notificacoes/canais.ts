@@ -6,14 +6,37 @@ import { cores } from '@/ui/tema';
 
 import { CANAL_LEMBRETES, CANAL_PALAVRA, TIPO_PALAVRA } from './conteudo';
 
+type OpcoesCanal = Parameters<typeof Notifications.setNotificationChannelAsync>[1];
+
+/** null = ainda não tentou; true = canais do BIMEC criados; false = o sistema recusou (Expo Go). */
+let resultadoCanais: boolean | null = null;
+
+/** Se os canais do BIMEC existem. No Expo Go é false: as notificações caem no canal padrão. */
+export function canaisCriados(): boolean | null {
+  return resultadoCanais;
+}
+
+async function criarCanal(id: string, opcoes: OpcoesCanal): Promise<boolean> {
+  try {
+    await Notifications.setNotificationChannelAsync(id, opcoes);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Canais do Android. Importância e som de um canal não mudam depois de criado,
  * então mudanças nesses campos pedem um id de canal novo.
+ *
+ * Nunca lança erro: o Expo Go (SDK 57 em diante) recusa criar canais do app. Nesse caso
+ * as notificações saem no canal padrão do Expo Go ("Miscellaneous"), que toca som;
+ * no APK os canais abaixo funcionam normalmente.
  */
-export async function configurarCanais(): Promise<void> {
-  if (Platform.OS !== 'android') return;
+export async function configurarCanais(): Promise<boolean> {
+  if (Platform.OS !== 'android') return false;
 
-  await Notifications.setNotificationChannelAsync(CANAL_PALAVRA, {
+  const palavra = await criarCanal(CANAL_PALAVRA, {
     name: 'Palavra do dia',
     description: 'A palavra que fica fixa na tela de bloqueio e troca sozinha.',
     importance: AndroidImportance.DEFAULT,
@@ -25,7 +48,7 @@ export async function configurarCanais(): Promise<void> {
     lockscreenVisibility: AndroidNotificationVisibility.PUBLIC,
   });
 
-  await Notifications.setNotificationChannelAsync(CANAL_LEMBRETES, {
+  const lembretes = await criarCanal(CANAL_LEMBRETES, {
     name: 'Lembretes',
     description: 'Lembrete diário e aviso de ofensiva em risco.',
     importance: AndroidImportance.HIGH,
@@ -36,6 +59,13 @@ export async function configurarCanais(): Promise<void> {
     lightColor: cores.traco,
     lockscreenVisibility: AndroidNotificationVisibility.PUBLIC,
   });
+
+  const criados = palavra && lembretes;
+  if (resultadoCanais === null && !criados) {
+    console.log('[BIMEC] O Android não deixou criar os canais (normal no Expo Go). Usando o canal padrão.');
+  }
+  resultadoCanais = criados;
+  return criados;
 }
 
 /** Com o app aberto: a palavra entra só na lista, sem banner e sem som. */

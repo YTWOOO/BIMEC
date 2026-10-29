@@ -11,16 +11,20 @@ export function usePermissao() {
   );
 
   const reler = useCallback(() => {
-    lerPermissao().then(setEstado);
+    lerPermissao()
+      .then(setEstado)
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
     if (Platform.OS !== 'android') return;
     let ativo = true;
     const atualizar = () => {
-      lerPermissao().then((e) => {
-        if (ativo) setEstado(e);
-      });
+      lerPermissao()
+        .then((e) => {
+          if (ativo) setEstado(e);
+        })
+        .catch(() => {});
     };
     atualizar();
     const assinatura = AppState.addEventListener('change', (e) => {
@@ -34,13 +38,20 @@ export function usePermissao() {
 
   /** Pede a permissão; se o Android não deixa mais pedir, abre as configurações do app. */
   const pedir = useCallback(async () => {
-    if (estado === 'negada') {
-      await Linking.openSettings();
-      return;
+    try {
+      if (estado === 'negada') {
+        await Linking.openSettings();
+        return;
+      }
+      const novo = await pedirPermissao();
+      setEstado(novo);
+      if (novo === 'concedida') await sincronizarPalavraDoDia(true);
+    } catch (erro) {
+      console.warn('[BIMEC] Não deu para pedir a permissão de notificação.', erro);
+      lerPermissao()
+        .then(setEstado)
+        .catch(() => {});
     }
-    const novo = await pedirPermissao();
-    setEstado(novo);
-    if (novo === 'concedida') await sincronizarPalavraDoDia(true);
   }, [estado]);
 
   return { estado, pedir, reler };
