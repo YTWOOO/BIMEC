@@ -92,26 +92,36 @@ function PalavraDeAgora() {
   const { troca, palavra: p } = palavraAgora(perfil, agora);
   const abrir = () => router.push({ pathname: '/palavra/[id]', params: { id: p.id } });
 
+  // Nenhum botão fica dentro de outro: na web isso vira <button> dentro de <button>, o que é proibido.
+  // Por isso o card tem duas áreas que abrem a palavra e o botão de som fica separado entre elas.
   return (
-    <Pressable onPress={abrir} accessibilityRole="button" accessibilityLabel={`Abrir a palavra ${p.en}`}>
-      <Prancha>
-        <Texto variante="rotulo">Palavra de agora · {nomeDoTema(p.tema)}</Texto>
-        <View style={estilos.linhaPalavra}>
-          <View style={estilos.flex}>
-            <Texto variante="destaque">{p.en}</Texto>
-            <Texto variante="subtitulo" cor={cores.textoSuave}>
-              {p.pt}
-            </Texto>
-          </View>
-          <Pressable
-            onPress={() => falar(p.en)}
-            accessibilityRole="button"
-            accessibilityLabel={`Ouvir ${p.en}`}
-            hitSlop={8}
-            style={({ pressed }) => [estilos.botaoSom, pressed && { opacity: 0.6 }]}>
-            <IconeSom tamanho={22} />
-          </Pressable>
-        </View>
+    <Prancha>
+      <Texto variante="rotulo">Palavra de agora · {nomeDoTema(p.tema)}</Texto>
+      <View style={estilos.linhaPalavra}>
+        <Pressable
+          onPress={abrir}
+          accessibilityRole="button"
+          accessibilityLabel={`Abrir a palavra ${p.en}`}
+          style={({ pressed }) => [estilos.flex, pressed && { opacity: 0.75 }]}>
+          <Texto variante="destaque">{p.en}</Texto>
+          <Texto variante="subtitulo" cor={cores.textoSuave}>
+            {p.pt}
+          </Texto>
+        </Pressable>
+        <Pressable
+          onPress={() => falar(p.en)}
+          accessibilityRole="button"
+          accessibilityLabel={`Ouvir ${p.en}`}
+          hitSlop={8}
+          style={({ pressed }) => [estilos.botaoSom, pressed && { opacity: 0.6 }]}>
+          <IconeSom tamanho={22} />
+        </Pressable>
+      </View>
+      <Pressable
+        onPress={abrir}
+        accessibilityRole="button"
+        accessibilityLabel={`Ver mais sobre ${p.en}`}
+        style={({ pressed }) => pressed && { opacity: 0.75 }}>
         <Cota rotulo="exemplo" />
         <Texto variante="corpoForte">{p.exemplo.en}</Texto>
         <Texto variante="suave">{p.exemplo.pt}</Texto>
@@ -123,8 +133,8 @@ function PalavraDeAgora() {
             Ver mais →
           </Texto>
         </View>
-      </Prancha>
-    </Pressable>
+      </Pressable>
+    </Prancha>
   );
 }
 

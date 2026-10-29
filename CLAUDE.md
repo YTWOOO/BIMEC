@@ -17,6 +17,7 @@ A cada prompt: ler o documento, fazer só a próxima etapa com tarefas abertas, 
 - Lógica pura (motor, gerador de frases) sem dependência de tela, com testes em `__tests__/`.
 - Tudo precisa funcionar no Expo Go: nada de biblioteca com código nativo fora do Expo Go antes da etapa 10.
 - Ao mudar o formato dos dados salvos, subir `VERSAO_ESQUEMA` em `src/store/padrao.ts` e tratar em `migrar`.
+- Nunca colocar um `Pressable` (ou `Botao`) dentro de outro: na web vira `<button>` dentro de `<button>` e quebra.
 
 ## Verificações antes de entregar
 
@@ -26,5 +27,9 @@ npx jest
 EXPO_OFFLINE=1 npx expo lint
 EXPO_OFFLINE=1 npx expo export --platform android
 ```
+
+Também abrir o app em modo de desenvolvimento (`EXPO_OFFLINE=1 npx expo start --web`) e passar por todas as telas com Playwright, olhando os erros do console: alguns erros só aparecem em desenvolvimento.
+
+Ao entregar, enviar para o GitHub e mandar também um zip do projeto no chat (`git archive --format=zip --prefix=BIMEC/ -o BIMEC.zip HEAD`).
 
 Nas sessões na nuvem, `npx expo install` precisa de `EXPO_OFFLINE=1` (a API do Expo é bloqueada pela rede).
