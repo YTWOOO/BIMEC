@@ -78,6 +78,7 @@ export default function LayoutRaiz() {
           }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="palavra/[id]" options={{ animation: 'slide_from_right' }} />
+          <Stack.Screen name="depuracao" options={{ animation: 'slide_from_right' }} />
         </Stack>
         <Sincronizacao />
       </ThemeProvider>

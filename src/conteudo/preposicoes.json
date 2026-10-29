@@ -1,0 +1,9 @@
+[
+  { "en": "inside", "pt": "dentro de", "requer": ["recipiente"] },
+  { "en": "in", "pt": "em", "requer": ["recipiente", "lugar"] },
+  { "en": "on", "pt": "em", "requer": ["superficie"] },
+  { "en": "under", "pt": "embaixo de", "requer": ["objeto"] },
+  { "en": "next to", "pt": "ao lado de", "requer": ["objeto", "lugar"] },
+  { "en": "behind", "pt": "atrás de", "requer": ["objeto", "lugar"] },
+  { "en": "in front of", "pt": "na frente de", "requer": ["objeto", "lugar"] }
+]

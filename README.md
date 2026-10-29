@@ -49,7 +49,9 @@ src/
   app/            telas (Expo Router)
     (tabs)/       Início, Revisão, Estatísticas, Configurações
     palavra/      tela de cada palavra
-  conteudo/       palavras (JSON) e temas
+    depuracao.tsx frases geradas (só no modo de desenvolvimento)
+  conteudo/       palavras, moldes de frase, contrações, unidades (JSON), temas e estruturas
+  gerador/        gerador de frases: português (gênero, contrações), frases e distratores
   data/           trilha de exemplo (some na etapa 7)
   notificacoes/   palavra na tela de bloqueio, canais, permissão, tarefa de fundo
   store/          progresso salvo no celular (zustand + AsyncStorage)

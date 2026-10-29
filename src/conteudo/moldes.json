@@ -1,0 +1,70 @@
+[
+  {
+    "id": "artigo-sozinho",
+    "estrutura": "artigos",
+    "nivelMin": 1,
+    "en": "{um:X}",
+    "pt": "{um:X}",
+    "espacos": { "X": { "tags": ["contavel"] } }
+  },
+  {
+    "id": "isto-e",
+    "estrutura": "artigos",
+    "nivelMin": 1,
+    "en": "This is {um:X}.",
+    "pt": "Isto é {um:X}.",
+    "espacos": { "X": { "tags": ["contavel"] } }
+  },
+  {
+    "id": "eu-tenho-dois",
+    "estrutura": "artigos",
+    "nivelMin": 2,
+    "en": "I have {um:X} and {um:Y}.",
+    "pt": "Eu tenho {um:X} e {um:Y}.",
+    "espacos": { "X": { "tags": ["objeto", "contavel"] }, "Y": { "tags": ["objeto", "contavel"] } }
+  },
+  {
+    "id": "o-esta-aqui",
+    "estrutura": "artigos",
+    "nivelMin": 1,
+    "en": "{o:X} is here.",
+    "pt": "{o:X} está aqui.",
+    "espacos": { "X": { "tags": [] } }
+  },
+  {
+    "id": "coisa-prep-um",
+    "estrutura": "preposicoes-lugar",
+    "nivelMin": 1,
+    "en": "{um:X} {prep:um:L}.",
+    "pt": "{um:X} {prep:um:L}.",
+    "espacos": { "X": { "tags": ["objeto", "pequeno", "contavel"] }, "L": { "tags": ["contavel"] } },
+    "preposicoes": ["inside", "in", "on", "under", "next to"]
+  },
+  {
+    "id": "o-esta-prep-o",
+    "estrutura": "preposicoes-lugar",
+    "nivelMin": 1,
+    "en": "{o:X} is {prep:o:L}.",
+    "pt": "{o:X} está {prep:o:L}.",
+    "espacos": { "X": { "tags": ["objeto", "pequeno"] }, "L": { "tags": ["contavel"] } },
+    "preposicoes": ["inside", "in", "on", "under", "next to", "behind", "in front of"]
+  },
+  {
+    "id": "tem-um-prep-o",
+    "estrutura": "preposicoes-lugar",
+    "nivelMin": 2,
+    "en": "There is {um:X} {prep:o:L}.",
+    "pt": "Tem {um:X} {prep:o:L}.",
+    "espacos": { "X": { "tags": ["objeto", "pequeno", "contavel"] }, "L": { "tags": ["contavel"] } },
+    "preposicoes": ["inside", "in", "on", "under", "next to", "behind"]
+  },
+  {
+    "id": "tem-dois-prep-o",
+    "estrutura": "preposicoes-lugar",
+    "nivelMin": 3,
+    "en": "There are {dois:X} {prep:o:L}.",
+    "pt": "Tem {dois:X} {prep:o:L}.",
+    "espacos": { "X": { "tags": ["objeto", "pequeno", "contavel"] }, "L": { "tags": ["contavel"] } },
+    "preposicoes": ["inside", "in", "on", "under", "next to", "behind", "in front of"]
+  }
+]

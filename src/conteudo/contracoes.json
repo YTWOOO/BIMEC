@@ -1,0 +1,75 @@
+[
+  {
+    "id": "no",
+    "pt": "no",
+    "partes": ["em", "o"],
+    "en": "in the / on the",
+    "exemplo": { "pt": "O livro está no quarto.", "en": "The book is in the bedroom." }
+  },
+  {
+    "id": "na",
+    "pt": "na",
+    "partes": ["em", "a"],
+    "en": "in the / on the",
+    "exemplo": { "pt": "As chaves estão na mesa.", "en": "The keys are on the table." },
+    "nota": "\"na\" pode ser \"in the\" (dentro) ou \"on the\" (em cima). Pense em onde a coisa está."
+  },
+  {
+    "id": "nos",
+    "pt": "nos",
+    "partes": ["em", "os"],
+    "en": "in the / on the",
+    "exemplo": { "pt": "Tem biscoitos nos pratos.", "en": "There are cookies on the plates." }
+  },
+  {
+    "id": "nas",
+    "pt": "nas",
+    "partes": ["em", "as"],
+    "en": "in the / on the",
+    "exemplo": { "pt": "Tem água nas xícaras.", "en": "There is water in the cups." }
+  },
+  {
+    "id": "num",
+    "pt": "num",
+    "partes": ["em", "um"],
+    "en": "in a / on a",
+    "exemplo": { "pt": "O bolo está num prato.", "en": "The cake is on a plate." }
+  },
+  {
+    "id": "numa",
+    "pt": "numa",
+    "partes": ["em", "uma"],
+    "en": "in a / on a",
+    "exemplo": { "pt": "O celular está numa bolsa.", "en": "The phone is in a bag." }
+  },
+  {
+    "id": "do",
+    "pt": "do",
+    "partes": ["de", "o"],
+    "en": "of the / from the",
+    "exemplo": { "pt": "A porta do quarto está aberta.", "en": "The door of the bedroom is open." },
+    "nota": "Em \"embaixo do\", \"ao lado do\", \"dentro do\", o \"do\" faz parte da preposição: under the, next to the, inside the."
+  },
+  {
+    "id": "da",
+    "pt": "da",
+    "partes": ["de", "a"],
+    "en": "of the / from the",
+    "exemplo": { "pt": "A chave está embaixo da mesa.", "en": "The key is under the table." }
+  },
+  {
+    "id": "naquele",
+    "pt": "naquele",
+    "partes": ["em", "aquele"],
+    "en": "in that / on that",
+    "exemplo": { "pt": "O livro está naquele quarto.", "en": "The book is in that bedroom." }
+  },
+  {
+    "id": "dele",
+    "pt": "dele",
+    "partes": ["de", "ele"],
+    "en": "his",
+    "exemplo": { "pt": "O livro dele está na mesa.", "en": "His book is on the table." },
+    "nota": "A ordem muda: em português \"o livro dele\", em inglês \"his book\" (o dono vem antes)."
+  }
+]

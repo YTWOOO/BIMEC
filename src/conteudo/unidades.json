@@ -1,0 +1,6 @@
+[
+  { "id": "u01", "numero": 1, "tipo": "estrutura", "alvo": "artigos", "titulo": "Artigos: a, an, the", "licoes": 6 },
+  { "id": "u02", "numero": 2, "tipo": "tema", "alvo": "comida", "titulo": "Comida e bebida", "licoes": 8 },
+  { "id": "u03", "numero": 3, "tipo": "estrutura", "alvo": "preposicoes-lugar", "titulo": "Preposições de lugar", "licoes": 8 },
+  { "id": "u04", "numero": 4, "tipo": "tema", "alvo": "casa", "titulo": "Casa e objetos", "licoes": 8 }
+]

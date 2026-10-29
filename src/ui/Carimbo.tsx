@@ -23,6 +23,8 @@ export function Carimbo({ partes, cor = cores.textoSuave }: Props) {
 const estilos = StyleSheet.create({
   caixa: {
     alignSelf: 'flex-start',
+    maxWidth: '100%',
+    flexShrink: 1,
     borderWidth: 1,
     paddingHorizontal: espaco.x2,
     paddingVertical: 2,

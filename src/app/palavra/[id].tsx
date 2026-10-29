@@ -1,30 +1,26 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import type { ReactNode } from 'react';
+import { useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { palavraPorId } from '@/conteudo/palavras';
 import { nomeDoTema } from '@/conteudo/temas';
 import type { Palavra } from '@/conteudo/tipos';
 import { useProgresso } from '@/store/progresso';
+import { BarraTopo } from '@/ui/BarraTopo';
 import { Botao } from '@/ui/Botao';
+import { BotaoPequeno } from '@/ui/BotaoPequeno';
 import { Carimbo } from '@/ui/Carimbo';
 import { Cota } from '@/ui/Cota';
-import { IconeSom, IconeTartaruga, IconeVoltar } from '@/ui/Icones';
+import { IconeSom, IconeTartaruga } from '@/ui/Icones';
 import { Prancha } from '@/ui/Prancha';
 import { Tela } from '@/ui/Tela';
 import { Texto } from '@/ui/Texto';
-import { alfa, cores, espaco, fontes, raio } from '@/ui/tema';
+import { cores, espaco, fontes } from '@/ui/tema';
 import { falar } from '@/util/audio';
 import { diaLocal } from '@/util/datas';
 
 /** Refeições não levam artigo ("have breakfast"), então a dica de "some" não serve. */
 const REFEICOES = new Set(['breakfast', 'lunch', 'dinner']);
-
-function voltar() {
-  if (router.canGoBack()) router.back();
-  else router.replace('/');
-}
 
 export default function TelaPalavra() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -61,8 +57,8 @@ export default function TelaPalavra() {
           {p.pt}
         </Texto>
         <View style={estilos.linhaBotoes}>
-          <BotaoAudio rotulo="Ouvir" icone={<IconeSom tamanho={18} />} onPress={() => falar(p.en)} />
-          <BotaoAudio rotulo="Devagar" icone={<IconeTartaruga tamanho={18} />} onPress={() => falar(p.en, true)} />
+          <BotaoPequeno rotulo="Ouvir" icone={<IconeSom tamanho={18} />} onPress={() => falar(p.en)} />
+          <BotaoPequeno rotulo="Devagar" icone={<IconeTartaruga tamanho={18} />} onPress={() => falar(p.en, true)} />
         </View>
       </View>
 
@@ -75,8 +71,8 @@ export default function TelaPalavra() {
           {p.exemplo.pt}
         </Texto>
         <View style={estilos.linhaBotoes}>
-          <BotaoAudio rotulo="Ouvir a frase" icone={<IconeSom tamanho={18} />} onPress={() => falar(p.exemplo.en)} />
-          <BotaoAudio
+          <BotaoPequeno rotulo="Ouvir a frase" icone={<IconeSom tamanho={18} />} onPress={() => falar(p.exemplo.en)} />
+          <BotaoPequeno
             rotulo="Devagar"
             icone={<IconeTartaruga tamanho={18} />}
             onPress={() => falar(p.exemplo.en, true)}
@@ -149,52 +145,7 @@ function LinhaUso({ en, pt }: { en: string; pt: string }) {
   );
 }
 
-function BarraTopo({ direita }: { direita?: ReactNode }) {
-  return (
-    <View style={estilos.barraTopo}>
-      <Pressable
-        onPress={voltar}
-        accessibilityRole="button"
-        accessibilityLabel="Voltar"
-        hitSlop={10}
-        style={({ pressed }) => [estilos.voltar, pressed && { opacity: 0.6 }]}>
-        <IconeVoltar tamanho={22} />
-        <Texto variante="rotulo" cor={cores.tracoClaro}>
-          Voltar
-        </Texto>
-      </Pressable>
-      {direita}
-    </View>
-  );
-}
-
-function BotaoAudio({ rotulo, icone, onPress }: { rotulo: string; icone: ReactNode; onPress: () => void }) {
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={rotulo}
-      style={({ pressed }) => [estilos.botaoAudio, pressed && { opacity: 0.65 }]}>
-      {icone}
-      <Texto variante="rotulo" cor={cores.tracoClaro}>
-        {rotulo}
-      </Texto>
-    </Pressable>
-  );
-}
-
 const estilos = StyleSheet.create({
-  barraTopo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  voltar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 2,
-    minHeight: 44,
-  },
   cabeca: {
     paddingVertical: espaco.x2,
   },
@@ -210,17 +161,6 @@ const estilos = StyleSheet.create({
     flexWrap: 'wrap',
     gap: espaco.x2,
     marginTop: espaco.x4,
-  },
-  botaoAudio: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: espaco.x2,
-    minHeight: 40,
-    paddingHorizontal: espaco.x3,
-    borderWidth: 1,
-    borderColor: alfa(cores.traco, 0.55),
-    borderRadius: raio,
-    backgroundColor: alfa(cores.traco, 0.06),
   },
   frase: {
     marginTop: espaco.x2,

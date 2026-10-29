@@ -28,7 +28,7 @@ EXPO_OFFLINE=1 npx expo lint
 EXPO_OFFLINE=1 npx expo export --platform android
 ```
 
-Também abrir o app em modo de desenvolvimento (`EXPO_OFFLINE=1 npx expo start --web`) e passar por todas as telas com Playwright, olhando os erros do console: alguns erros só aparecem em desenvolvimento.
+Também abrir o app em modo de desenvolvimento (`EXPO_OFFLINE=1 npx expo start --web --clear`) e passar por todas as telas com Playwright, olhando os erros do console: alguns erros só aparecem em desenvolvimento. Na nuvem o Metro não percebe arquivos alterados: depois de mudar código, reinicie o servidor com `--clear`. Rotas novas só entram nos tipos (`.expo/types`) depois de um `expo start`; rode o servidor antes do `tsc` quando criar uma rota.
 
 Ao entregar, enviar para o GitHub e mandar também um zip do projeto no chat (`git archive --format=zip --prefix=BIMEC/ -o BIMEC.zip HEAD`).
 

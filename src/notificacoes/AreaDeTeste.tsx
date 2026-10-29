@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
@@ -19,7 +20,8 @@ function quando(iso: string | null | undefined): string {
 }
 
 /**
- * Ferramentas para testar a palavra na tela de bloqueio.
+ * Ferramentas de teste: frases do gerador (todas as plataformas) e
+ * palavra na tela de bloqueio (só Android).
  * Só aparece no modo de desenvolvimento (Expo Go), nunca no APK final.
  */
 export function AreaDeTeste() {
@@ -43,12 +45,34 @@ export function AreaDeTeste() {
     };
   }, []);
 
-  if (!__DEV__ || Platform.OS !== 'android') return null;
+  if (!__DEV__) return null;
+  const android = Platform.OS === 'android';
 
   return (
     <Prancha tracejada>
       <Texto variante="rotulo">Área de teste · só no modo de desenvolvimento</Texto>
 
+      <View style={estilos.botoes}>
+        <Botao titulo="Ver frases geradas" variante="contorno" onPress={() => router.push('/depuracao')} />
+      </View>
+
+      {android && <TestesDaNotificacao {...{ registro, tarefa, mensagem, setMensagem, recarregar, perfil }} />}
+    </Prancha>
+  );
+}
+
+type PropsTestes = {
+  registro: RegistroPalavra | null;
+  tarefa: EstadoTarefa | null;
+  mensagem: string | null;
+  setMensagem: (m: string | null) => void;
+  recarregar: () => void;
+  perfil: ReturnType<typeof useProgresso.getState>['perfil'];
+};
+
+function TestesDaNotificacao({ registro, tarefa, mensagem, setMensagem, recarregar, perfil }: PropsTestes) {
+  return (
+    <>
       <View style={estilos.dados}>
         <Linha rotulo="Na tela agora" valor={registro ? `${registro.palavraId} (troca ${registro.numero})` : '—'} />
         <Linha rotulo="Próxima troca" valor={quando(registro?.proxima)} />
@@ -102,7 +126,7 @@ export function AreaDeTeste() {
         />
         <Botao titulo="Atualizar dados" variante="contorno" onPress={recarregar} />
       </View>
-    </Prancha>
+    </>
   );
 }
 
