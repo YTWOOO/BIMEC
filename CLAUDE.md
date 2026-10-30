@@ -18,6 +18,7 @@ A cada prompt: ler o documento, fazer só a próxima etapa com tarefas abertas, 
 - Tudo precisa funcionar no Expo Go: nada de biblioteca com código nativo fora do Expo Go antes da etapa 10.
 - Ao mudar o formato dos dados salvos, subir `VERSAO_ESQUEMA` em `src/store/padrao.ts` e tratar em `migrar`.
 - Nunca colocar um `Pressable` (ou `Botao`) dentro de outro: na web vira `<button>` dentro de `<button>` e quebra.
+- Ao subir a versão no `package.json`, rodar `npm install --package-lock-only` para o `package-lock.json` acompanhar. Se ficar diferente, o `npm install` do Ícaro modifica o arquivo e o próximo `git pull` dele trava.
 
 ## Verificações antes de entregar
 
