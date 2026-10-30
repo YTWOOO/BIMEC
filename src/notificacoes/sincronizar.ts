@@ -1,5 +1,5 @@
 import * as Notifications from 'expo-notifications';
-import { router } from 'expo-router';
+import { router, useRootNavigationState } from 'expo-router';
 import { useEffect } from 'react';
 import { AppState, Platform } from 'react-native';
 
@@ -63,26 +63,41 @@ export function useSincronizarPalavraDoDia() {
   }, [hidratado, ligada, intervalo, inicio, fim]);
 }
 
-/** Tocar na notificação abre a tela da palavra, com o app aberto ou fechado. */
+/**
+ * Tocar na notificação abre a tela da palavra, com o app aberto ou fechado.
+ * Espera a navegação ficar pronta (com o app fechado, o toque chega antes das telas montarem)
+ * e nunca deixa um erro aqui derrubar o app: no pior caso, ele abre no Início.
+ */
 export function useAbrirPelaNotificacao() {
+  const navegacao = useRootNavigationState();
+  const pronta = Boolean(navegacao?.key);
+
   useEffect(() => {
-    if (Platform.OS === 'web') return;
+    if (Platform.OS === 'web' || !pronta) return;
 
     const abrir = (resposta: Notifications.NotificationResponse | null) => {
-      const url = resposta?.notification.request.content.data?.url;
-      if (typeof url === 'string' && url.startsWith('/')) {
-        router.push(url as Parameters<typeof router.push>[0]);
+      try {
+        const url = resposta?.notification?.request?.content?.data?.url;
+        if (typeof url === 'string' && url.startsWith('/')) {
+          router.push(url as Parameters<typeof router.push>[0]);
+        }
+      } catch (erro) {
+        console.warn('[BIMEC] Não deu para abrir a palavra da notificação.', erro);
       }
     };
 
     // App aberto pelo toque na notificação, vindo de fechado.
-    const ultima = Notifications.getLastNotificationResponse();
-    if (ultima) {
-      abrir(ultima);
-      Notifications.clearLastNotificationResponse();
+    try {
+      const ultima = Notifications.getLastNotificationResponse();
+      if (ultima) {
+        Notifications.clearLastNotificationResponse();
+        abrir(ultima);
+      }
+    } catch (erro) {
+      console.warn('[BIMEC] Não deu para ler a notificação tocada.', erro);
     }
 
     const assinatura = Notifications.addNotificationResponseReceivedListener(abrir);
     return () => assinatura.remove();
-  }, []);
+  }, [pronta]);
 }
